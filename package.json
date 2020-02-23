@@ -2,29 +2,30 @@
   "name": "WhereToCode",
   "version": "0.0.0",
   "description": "Labs PT",
-  "main": "backend/index.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node backend/index.js",
-    "server": "nodemon backend/index.js",
+    "start": "node index.js",
+    "server": "nodemon index.js",
     "test": " ENVIRONMENT=testing jest --watchAll --verbose"
   },
-  "repository": "https://github.com/wheretocode/WhereToCode.git",
+  "repository": "https://github.com/Lambda-School-Labs/where-to-code-be.git",
   "author": "MrT3313 <rturgeon13@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
     "helmet": "^3.21.2",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^0.19.5",
     "knex-cleaner": "^1.3.0",
     "morgan": "^1.9.1",
     "pg": "^7.12.1",
-    "speedtest-net": "^1.5.1"
+    "speedtest-net": "^1.5.1",
+    "sqlite3": "^4.1.1"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1",
+    "nodemon": "^1.19.4",
     "supertest": "^4.0.2"
   }
 }
