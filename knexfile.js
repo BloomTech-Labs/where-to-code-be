@@ -42,7 +42,7 @@ module.exports = {
   },
   production: {
     client: "pg",
-    connection: process.env.DATABASE_URL, //postgres://ropszhiypaokds:cc788a1aba301f3bc8bdcf2d4fc56280f1158a2f8b02d566ba5a852793c96786@ec2-23-21-156-171.compute-1.amazonaws.com:5432/dccmt8le0mj9t5
+    connection: process.env.PRODUCTION_SERVER, //postgres://ropszhiypaokds:cc788a1aba301f3bc8bdcf2d4fc56280f1158a2f8b02d566ba5a852793c96786@ec2-23-21-156-171.compute-1.amazonaws.com:5432/dccmt8le0mj9t5
     // ssl: true,
     migrations: {
       directory: "./migrations",
