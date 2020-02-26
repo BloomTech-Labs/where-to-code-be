@@ -8,8 +8,8 @@ const signToken = require("../middleware/signToken");
 // EXPRESS ROUTER
 const router = require("express").Router();
 
-// @route  POST auth/
-// @desc   Gets all of the locations in the database
+// @route  POST /auth/user/register
+// @desc   Allows a basic user to register
 // @access Public
 router.post("/user/register", checkRegisterCreds, async (req, res) => {
   const userCreds = {
@@ -19,15 +19,21 @@ router.post("/user/register", checkRegisterCreds, async (req, res) => {
     role: "user"
   };
 
+  const userInfo = {
+    username: req.body.username,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName
+  };
+
   try {
-    const [addedUserCreds] = await USER_CREDS.add(userCreds);
-    const {password, ...userInfo} = addedUserCreds;
+    const [addedUserCreds] = await USER_CREDS.add(userCreds); // add user credentials to user_creds table
+    const {password, ...userCredsRest} = addedUserCreds; // remove password from response object
+
+    const [addedUserInfo] = await USERS_MODEL.add({ id: userCredsRest.id, ...userInfo }); // add users information to users table
+
     return res.status(201).json({
-      message: "User added",
-      user: {
-        ...userInfo,
-        token: signToken(userInfo)
-      }
+      ...addedUserInfo,
+      token: signToken(userCredsRest)
     });
   } catch (err) {
     res.status(500).json({ message: "Error adding user." });
@@ -46,6 +52,7 @@ function checkRegisterCreds(req, res, next) {
   if (!user.password) return res.status(401).json({ message: "Provide a password" });
   if (!user.firstName) return res.status(401).json({ message: "Provide a first name as firstName." });
   if (!user.lastName) return res.status(401).json({ message: "Provide a last name as lastName" });
+  next();
 }
 
 module.exports = router;
