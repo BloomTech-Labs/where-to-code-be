@@ -8,7 +8,7 @@ module.exports = {
 };
 
 function findBy(id) {
-  return db('user_creds').select(id);
+  return db('user_creds').where(id);
 }
 
 function add(user) {
