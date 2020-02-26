@@ -11,16 +11,17 @@ const router = require("express").Router();
 // @route  POST auth/
 // @desc   Gets all of the locations in the database
 // @access Public
-router.post("/register", async (req, res) => {
-  if (!req.body) {
-    return res.status(500).json({ msg: "Nothing in req.body" });
-  }
-  let user = req.body;
-  user.password = bcrypt.hashSync(user.password, 8);
+router.post("/user/register", checkRegisterCreds, async (req, res) => {
+  const userCreds = {
+    username: req.body.username,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 8),
+    role: "user"
+  };
 
   try {
-    const [addedUser] = await USER_CREDS.add(user);
-    const {password, ...userInfo} = addedUser;
+    const [addedUserCreds] = await USER_CREDS.add(userCreds);
+    const {password, ...userInfo} = addedUserCreds;
     return res.status(201).json({
       message: "User added",
       user: {
