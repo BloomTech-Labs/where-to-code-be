@@ -1,5 +1,9 @@
 // IMPORTS
 const USERS_MODEL = require("../models/UsersModel");
+const USER_CREDS = require("../models/UserCredsModel");
+
+const bcrypt = require("bcryptjs");
+const signToken = require("../middleware/signToken");
 
 // EXPRESS ROUTER
 const router = require("express").Router();
@@ -12,9 +16,18 @@ router.post("/register", async (req, res) => {
     return res.status(500).json({ msg: "Nothing in req.body" });
   }
   let user = req.body;
+  user.password = bcrypt.hashSync(user.password, 8);
+
   try {
-    const addedUser = await USERS_MODEL.add(user);
-    return res.status(201).json({ message: "User added", addedUser });
+    const [addedUser] = await USER_CREDS.add(user);
+    const {password, ...userInfo} = addedUser;
+    return res.status(201).json({
+      message: "User added",
+      user: {
+        ...userInfo,
+        token: signToken(userInfo)
+      }
+    });
   } catch (err) {
     res.status(500).json({ message: "Error adding user." });
   }
