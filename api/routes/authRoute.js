@@ -33,4 +33,18 @@ router.post("/register", async (req, res) => {
   }
 });
 
+// Middleware
+function checkRegisterCreds(req, res, next) {
+  if (!req.body) {
+    return res.status(401).json({ message: "Request sent was empty." });
+  }
+
+  const user = req.body;
+  if (!user.username) return res.status(401).json({ message: "Provide a username" });
+  if (!user.email) return res.status(401).json({ message: "Provide a email" });
+  if (!user.password) return res.status(401).json({ message: "Provide a password" });
+  if (!user.firstName) return res.status(401).json({ message: "Provide a first name as firstName." });
+  if (!user.lastName) return res.status(401).json({ message: "Provide a last name as lastName" });
+}
+
 module.exports = router;
