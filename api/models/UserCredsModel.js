@@ -12,7 +12,7 @@ function findBy(id) {
 }
 
 function add(user) {
-  return db('user_creds').insert(user);
+  return db('user_creds').insert(user, ['*']);
 }
 
 function remove(id) {
@@ -20,5 +20,5 @@ function remove(id) {
 }
 
 function update(id, changes) {
-  return db('user_creds').select(id).update(changes);
+  return db('user_creds').select(id).update(changes, ['*']);
 }
