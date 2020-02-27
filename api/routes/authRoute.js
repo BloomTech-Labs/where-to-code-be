@@ -9,16 +9,14 @@ const signToken = require("../middleware/signToken");
 const router = require("express").Router();
 
 // @route  POST /auth/login
-// @desc   A user sends their username & password to gain a jwt
+// @desc   A user sends their email & password to gain a jwt
 // @access Public
 router.post("/login", async (req, res) => {
   const {email, password} = req.body;
   try {
     const [user] = await USER_CREDS.findBy({ email });
     if (user && bcrypt.compareSync(password, user.password)) {
-      console.log('user: ', user);
       const [userInfo] = await USERS_MODEL.getUserById(user.id);
-      console.log('userInfo, : ', userInfo);
       return res.status(200).json({ ...userInfo, token: signToken(user)});
     }
     return res.status(401).json({ message: "Invalid credentials." });
