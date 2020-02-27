@@ -20,5 +20,5 @@ function remove(id) {
 }
 
 function update(id, changes) {
-  return db('user_creds').select(id).update(changes, ['*']);
+  return db('user_creds').where({ id }).update(changes, ['*']);
 }
