@@ -13,6 +13,7 @@ function authenticate(req, res, next) {
         res.status(401).json({ message: "authorization not valid!" });
       } else {
         //means token is good
+        res.locals.decodedToken = decodedToken; // allows access to payload in token
         next(); //move on to the requested endpoint
       }
     });
