@@ -13,7 +13,7 @@ exports.up = async function(knex) {
     tbl.string("lastName").notNullable();
     tbl.string("name").notNullable();
     tbl.string("icon");
-    tbl.string("address").notNullable();
+    tbl.string("address").notNullable().unique();
     tbl.decimal("rating").default(0);
   });
 };

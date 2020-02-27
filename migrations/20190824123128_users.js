@@ -22,8 +22,8 @@ exports.up = async function(knex) {
       .inTable("user_creds")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
-    tbl.string("firstName").notNullable().unique(); // - Aciel
-    tbl.string("lastName").notNullable().unique(); // - Ochoa
+    tbl.string("firstName").notNullable() // - Aciel
+    tbl.string("lastName").notNullable(); // - Ochoa
     tbl.integer("reviewCount").default(0); // - 300
     tbl.timestamps(true, true); // - When account was created
   });
