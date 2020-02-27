@@ -1,6 +1,5 @@
 // IMPORTS
 const USERS_MODEL = require("../models/UsersModel");
-const authenticate = require("../middleware/authenticate.js");
 
 // EXPRESS ROUTER
 const router = require("express").Router();
@@ -23,7 +22,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   try {
-    const specifiedUser = await USERS_MODEL.getUserById(id);
+    const [specifiedUser] = await USERS_MODEL.getUserById(id);
     res.status(200).json(specifiedUser);
   } catch (err) {
     res.status(500).json({ msg: err });

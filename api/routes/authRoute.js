@@ -4,6 +4,7 @@ const USER_CREDS = require("../models/UserCredsModel");
 
 const bcrypt = require("bcryptjs");
 const signToken = require("../middleware/signToken");
+const authenticate = require("../middleware/authenticate");
 
 // EXPRESS ROUTER
 const router = require("express").Router();
@@ -54,6 +55,26 @@ router.post("/user/register", checkRegisterCreds, async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: "Error adding user." });
+  }
+});
+
+router.use(authenticate);
+
+// @route  PUT /auth/update
+// @desc   Updates a users account
+// @access Restricted
+router.put("/update", async (req, res) => {
+  const updateTo = req.body;
+  if (!Object.keys(updateTo).length || updateTo.id) return res.status(401).json({ message: "No changes provided." });
+  const { userId } = res.locals.decodedToken;
+  try {
+    if (updateTo.password) updateTo.password = bcrypt.hashSync(updateTo.password, 8);
+    const [updatedUserCreds] = await USER_CREDS.update(userId, updateTo);
+    if (updatedUserCreds) return res.status(204).end();
+    else res.status(401).end();
+  } 
+  catch(err) {
+    return res.status(401).json({ message: "Unable to update user", error: err.message });
   }
 });
 
