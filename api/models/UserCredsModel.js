@@ -16,7 +16,7 @@ function add(user) {
 }
 
 function remove(id) {
-  return db('user_creds').del(id);
+  return db('user_creds').where({ id }).del();
 }
 
 function update(id, changes) {
