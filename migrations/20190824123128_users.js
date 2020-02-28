@@ -1,17 +1,35 @@
 exports.up = async function(knex) {
+
+  await knex.schema.createTable("user_creds", tbl => {
+    tbl.increments();
+    tbl.string("username").notNullable().unique(); // - afochoa
+    tbl.string("email").notNullable().unique(); // - fake_email@place.com
+    tbl.string("password").notNullable(); // - bestsecretever
+    tbl.string("role").notNullable(); // - user || business
+  });
+
   await knex.schema.createTable("users", tbl => {
-    tbl.increments(); // primary key - user id
-    tbl.string("firebase_user_id"); // firebase id
-    tbl
-      .string("userName") // RonnySAlvarado
+    tbl.integer("id") // - primary key
+      .primary()
       .notNullable()
-      .unique();
-    tbl.string("email"); // Rsalvarado777@gmail.com
-    tbl.integer("reviewCount").default(0); // 300
-    tbl.timestamps(true, true); // when account was created
+      .unique()
+      .references("id")
+      .inTable("user_creds")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
+    tbl.string("username") // - afochoa
+      .references("username")
+      .inTable("user_creds")
+      .onDelete("CASCADE")
+      .onUpdate("CASCADE");
+    tbl.string("firstName").notNullable() // - Aciel
+    tbl.string("lastName").notNullable(); // - Ochoa
+    tbl.integer("reviewCount").default(0); // - 300
+    tbl.timestamps(true, true); // - When account was created
   });
 };
 
 exports.down = async function(knex) {
   await knex.schema.dropTableIfExists("users");
+  await knex.schema.dropTableIfExists("user_creds");
 };

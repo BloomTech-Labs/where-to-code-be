@@ -1,45 +1,47 @@
-exports.seed = function(knex) {
+exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex("users")
     .del()
-    .then(function() {
+    .then(function () {
       // Inserts seed entries
       return knex("users").insert([
         {
-          firebase_user_id: "5VSGCGzux6NVSFHn9Tnoe0XrUPD2",
-          userName: "Ronny_userName",
-          email: "test@email.com"
+          id: 1,
+          username: "Ronny_userName",
+          firstName: "Ronny",
+          lastName: "Pipper"
         },
         {
-          firebase_user_id: "hy65tgv",
-          userName: "Reed_userName",
-          email: "test@email.com"
+          id: 2,
+          username: "Reed_userName",
+          firstName: "Reed",
+          lastName: "Peters"
         },
         {
-          firebase_user_id: "JgE4Y5pEXQZuTc0GWBOXu5yVt1Y2",
-          userName: "Bernard_userName",
-          email: "test@email.com"
+          id: 3,
+          username: "Bernard_userName",
+          firstName: "Bernard",
+          lastName: "Johnson"
         },
         {
-          firebase_user_id: "YXRkpmEwMBhcU7rFth48ivrIu872",
-          userName: "Levi_userName",
-          email: "test@email.com"
+          id: 4,
+          username: "Levi_userName",
+          firstName: "Levi",
+          lastName: "Jeans"
         },
         {
-          firebase_user_id: "jhgftr56y",
-          userName: "Ami_userName",
-          email: "test@email.com"
+          id: 5,
+          username: "Ami_userName",
+          firstName: "Ami",
+          lastName: "Jones"
         },
         {
-          firebase_user_id: "YXRkpmEwMBhcU7rFth48ivrIu872",
-          userName: "David_userName",
-          email: "test@email.com"
+          id: 6,
+          username: "David_userName",
+          firstName: "David",
+          lastName: "Smith"
         },
-        {
-          firebase_user_id: "rkth6gQQkKgAGWdNAPAnr3crFp73",
-          userName: "Diamond_userName",
-          email: "test@email.com"
-        }
+
       ]);
     });
 };
