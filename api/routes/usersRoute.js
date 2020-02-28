@@ -1,6 +1,8 @@
 // IMPORTS
 const USERS_MODEL = require("../models/UsersModel");
 
+const authenticate = require("../middleware/authenticate");
+
 // EXPRESS ROUTER
 const router = require("express").Router();
 
@@ -27,6 +29,19 @@ router.get("/:id", async (req, res) => {
   } catch (err) {
     res.status(500).json({ msg: err });
   }
+});
+
+router.use(authenticate);
+
+// @route  PUT /users/update
+// @desc   Gets a specific user from the database
+// @access Public
+router.put("/update", async (req, res) => {
+  const id = res.locals.decodedToken.userId;
+  const [updated] = await USERS_MODEL.update(id, req.body);
+  if (updated) {
+    return res.status(204).end();
+  } else return res.status(401).end();
 });
 
 module.exports = router;
