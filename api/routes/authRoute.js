@@ -78,9 +78,20 @@ router.put("/update", async (req, res) => {
   }
 });
 
+// @route  /users/delete
+// @desc   Allows a user to delete their account
+// @access Restricted
+router.delete("/delete-account", async (req, res) => {
+  const id = res.locals.decodedToken.userId;
+  const success = await USER_CREDS.remove(id);
+  console.log('success: ', success);
+  if (!success) return res.status(500).json({ message: "Unable to remove user from database." });
+  return res.status(204).end();
+});
+
 // Middleware
 function checkRegisterCreds(req, res, next) {
-  if (!req.body) {
+  if (!Object.keys(req.body).length) {
     return res.status(401).json({ message: "Request sent was empty." });
   }
 
