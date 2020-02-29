@@ -2,8 +2,8 @@ const bcrypt = require('bcryptjs');
 
 exports.seed = function (knex) {
     // Deletes ALL existing entries
-    return knex("user_creds")
-        .del()
+    return knex
+        .raw('TRUNCATE TABLE user_creds RESTART IDENTITY CASCADE')
         .then(function () {
             // Inserts seed entries
             return knex("user_creds").insert([
