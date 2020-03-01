@@ -21,7 +21,7 @@ module.exports = {
     },
     testing: {
         client: "pg",
-        connection: process.env.TEST_SERVER,
+        connection: process.env.DATABASE_URL,
         // ssl: true,
         migrations: {
             directory: "./migrations",
@@ -34,7 +34,7 @@ module.exports = {
     },
     production: {
         client: "pg",
-        connection: process.env.PRODUCTION_SERVER,
+        connection: process.env.DATABASE_URL,
         // ssl: true,
         migrations: {
             directory: "./migrations",
