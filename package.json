@@ -1,12 +1,12 @@
 {
-    "name": "WhereToCode",
+    "name": "where-to-code",
     "version": "0.0.0",
     "description": "Labs PT",
     "main": "index.js",
     "scripts": {
         "start": "node index.js",
         "server": "nodemon index.js",
-        "test": " ENVIRONMENT=testing jest --watchAll --verbose"
+        "test": "cross-env ENVIRONMENT=testing jest --watchAll --verbose"
     },
     "repository": "https://github.com/Lambda-School-Labs/where-to-code-be.git",
     "author": "MrT3313 <rturgeon13@gmail.com>",
@@ -14,6 +14,7 @@
     "dependencies": {
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",
+        "cross-env": "^7.0.0",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "express-async-errors": "^3.1.1",
@@ -26,6 +27,7 @@
         "speedtest-net": "^1.5.1"
     },
     "devDependencies": {
+        "jest": "^25.1.0",
         "nodemon": "^1.19.4",
         "supertest": "^4.0.2"
     }
