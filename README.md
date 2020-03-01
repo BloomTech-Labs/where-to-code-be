@@ -6,20 +6,23 @@
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### 1️⃣ Backend delpoyed at [Hive Stack Heroku](https://hive-stack.herokuapp.com/) <br>
 
 ## 1️⃣ Getting started
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
 - **yarn install** to install all required dependencies
+- create **.env**
+  - **DEV_SERVER** development database url
+  - **JWT_SECRET** secret for jwtoken
+- **knex migrate:latest** migrate tables for database
+- **knex seed:run** runs seeded testing data
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
 
-### Backend framework goes here
+### NodeJs
 
 🚫 Why did you choose this framework?
 
@@ -30,15 +33,14 @@ To get the server running locally:
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
-
-#### Organization Routes
+#### Authentication Routes
 
 | Method | Endpoint                | Access Control | Description                                  |
 | ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| POST   | `/auth/user/register`   | public         | Create an account for a basic user.          |
+| POST   | `/auth/login`           | public         | Login to a users account.                    |
+| PUT    | `/auth/update`          | users          | Update a users credentials.                  |
+| DELETE | `/auth/delete-account`  | users          | Delete the users account.                    |
 
 #### User Routes
 
