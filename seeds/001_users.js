@@ -1,57 +1,46 @@
-exports.seed = function(knex) {
+exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex("users")
     .del()
-    .then(function() {
+    .then(function () {
       // Inserts seed entries
       return knex("users").insert([
         {
-          firebase_user_id: "5VSGCGzux6NVSFHn9Tnoe0XrUPD2",
-          userName: "Ronny_userName",
-          email: "test@email.com"
+          id: 1,
+          username: "test1",
+          firstName: "Ronny",
+          lastName: "Pipper"
         },
         {
-          firebase_user_id: "hy65tgv",
-          userName: "Reed_userName",
-          email: "test@email.com"
+          id: 2,
+          username: "test2",
+          firstName: "Reed",
+          lastName: "Peters"
         },
         {
-          firebase_user_id: "JgE4Y5pEXQZuTc0GWBOXu5yVt1Y2",
-          userName: "Bernard_userName",
-          email: "test@email.com"
+          id: 3,
+          username: "test3",
+          firstName: "Bernard",
+          lastName: "Johnson"
         },
         {
-          firebase_user_id: "YXRkpmEwMBhcU7rFth48ivrIu872",
-          userName: "Levi_userName",
-          email: "test@email.com"
+          id: 4,
+          username: "test4",
+          firstName: "Levi",
+          lastName: "Jeans"
         },
         {
-          firebase_user_id: "jhgftr56y",
-          userName: "Ami_userName",
-          email: "test@email.com"
+          id: 5,
+          username: "test5",
+          firstName: "Ami",
+          lastName: "Jones"
         },
         {
-          firebase_user_id: "YXRkpmEwMBhcU7rFth48ivrIu872",
-          userName: "David_userName",
-          email: "test@email.com"
-        },
-        {
-          firebase_user_id: "rkth6gQQkKgAGWdNAPAnr3crFp73",
-          userName: "Diamond_userName",
-          email: "test@email.com"
+          id: 6,
+          username: "test6",
+          firstName: "David",
+          lastName: "Smith"
         }
       ]);
     });
 };
-
-/*tbl.increments(); // primary key - user id
-    tbl.string("firebase_user_id"); // firebase id
-    tbl
-      .string("userName") // RonnySAlvarado
-      .notNullable()
-      .unique();
-    tbl.string("userType").notNullable(); // Owner, Student, Programmer, Someone actually normal
-    tbl.string("email"); // Rsalvarado777@gmail.com
-    tbl.integer("reviewCount"); // 300
-    tbl.timestamps(true, true); // when account was created
-*/
