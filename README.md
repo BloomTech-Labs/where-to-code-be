@@ -50,6 +50,16 @@ To get the server running locally:
 | GET    | `/users/:userId`        | public          | Returns info for a single user.                    |
 | PUT    | `/users/`               | registered user | Updates a users `firstName` & `lastName`.          |
 
+There are six test users seeded into the database:
+| Email           | Password |
+| --------------- | -------- |
+| test1@gmail.com | test     |
+| test2@gmail.com | test2    |
+| test3@gmail.com | test3    |
+| test4@gmail.com | test4    |
+| test5@gmail.com | test5    |
+| test6@gmail.com | test6    |
+
 # Data Model
 
 #### 2️⃣ BASIC USERS
