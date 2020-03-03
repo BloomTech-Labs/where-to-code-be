@@ -35,23 +35,20 @@ To get the server running locally:
 
 #### Authentication Routes
 
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| POST   | `/auth/user/register`   | public         | Create an account for a basic user.          |
-| POST   | `/auth/login`           | public         | Login to a users account.                    |
-| PUT    | `/auth/update`          | users          | Update a users credentials.                  |
-| DELETE | `/auth/delete-account`  | users          | Delete the users account.                    |
+| Method | Endpoint                | Access Control  | Description                                  |
+| ------ | ----------------------- | --------------- | -------------------------------------------- |
+| POST   | `/auth/user/register`   | public          | Create an account for a basic user.          |
+| POST   | `/auth/login`           | public          | Login to a users account.                    |
+| PUT    | `/auth/update`          | registered user | Update a users credentials.                  |
+| DELETE | `/auth/delete-account`  | registered user | Delete the users account.                    |
 
 #### User Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| Method | Endpoint                | Access Control  | Description                                        |
+| ------ | ----------------------- | --------------- | -------------------------------------------------- |
+| GET    | `/users`                | public          | Returns a list of all registered users.            |
+| GET    | `/users/:userId`        | public          | Returns info for a single user.                    |
+| PUT    | `/users/`               | registered user | Updates a users `firstName` & `lastName`.          |
 
 # Data Model
 
