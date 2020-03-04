@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node index.js",
         "server": "nodemon index.js",
-        "test": "knex seed:run --env=testing && cross-env ENVIRONMENT=testing jest --watchAll --verbose"
+        "test": "cross-env ENVIRONMENT=testing jest --watchAll --verbose"
     },
     "repository": "https://github.com/Lambda-School-Labs/where-to-code-be.git",
     "author": "MrT3313 <rturgeon13@gmail.com>",
