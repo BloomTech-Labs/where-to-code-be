@@ -158,3 +158,6 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
 🚫 Add DS iOS and/or Andriod links here if applicable.
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/test_coverage)
