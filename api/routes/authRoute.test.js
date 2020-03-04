@@ -1,5 +1,15 @@
 const server = require("../server.js");
 const request = require("supertest");
+const knex = require("../../config/knexConfig");
+
+const initialize = async () => {
+  await knex.raw('TRUNCATE TABLE user_creds RESTART IDENTITY CASCADE');
+  await knex('users').del();
+}
+
+beforeAll(() => {
+  return initialize();
+})
 
 describe("REGISTER USER", () => {
   it("Should return status code 201, and contain token", async () => {
