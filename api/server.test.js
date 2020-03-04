@@ -3,8 +3,8 @@ const request = require("supertest");
 
 describe("SERVER", () => {
   describe("Environment", () => {
-    it("should set the testing environment", () => {
-      const env = process.env.DB_CONNECT;
+    it("Environment should be set to testing", () => {
+      const env = process.env.ENVIRONMENT;
 
       expect(env).toBe("testing");
     });
