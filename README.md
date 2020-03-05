@@ -6,20 +6,24 @@
 
 # API Documentation
 
-#### 1️⃣ Backend delpoyed at [🚫name service here](🚫add URL here) <br>
+#### Backend delpoyed at [Hive Stack Heroku](https://hive-stack.herokuapp.com/) <br>
 
-## 1️⃣ Getting started
+## Getting started
 
 To get the server running locally:
 
-🚫 adjust these scripts to match your project
-
 - Clone this repo
 - **yarn install** to install all required dependencies
+- create **.env**
+  - **DEV_SERVER** development database url
+  - **JWT_SECRET** secret for jwtoken
+  - **TESTING_DATABASE** database url for testing environment
+- **knex migrate:latest** migrate tables for database
+- **knex seed:run** runs seeded testing data
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
 
-### Backend framework goes here
+### NodeJs
 
 🚫 Why did you choose this framework?
 
@@ -30,63 +34,48 @@ To get the server running locally:
 
 ## 2️⃣ Endpoints
 
-🚫This is a placeholder, replace the endpoints, access controll, and descriptioin to match your project
+#### Authentication Routes
 
-#### Organization Routes
-
-| Method | Endpoint                | Access Control | Description                                  |
-| ------ | ----------------------- | -------------- | -------------------------------------------- |
-| GET    | `/organizations/:orgId` | all users      | Returns the information for an organization. |
-| PUT    | `/organizatoins/:orgId` | owners         | Modify an existing organization.             |
-| DELETE | `/organizations/:orgId` | owners         | Delete an organization.                      |
+| Method | Endpoint                | Access Control  | Description                                  |
+| ------ | ----------------------- | --------------- | -------------------------------------------- |
+| POST   | `/auth/user/register`   | public          | Create an account for a basic user.          |
+| POST   | `/auth/login`           | public          | Login to a users account.                    |
+| PUT    | `/auth/update`          | registered user | Update a users credentials.                  |
+| DELETE | `/auth/delete-account`  | registered user | Delete the users account.                    |
 
 #### User Routes
 
-| Method | Endpoint                | Access Control      | Description                                        |
-| ------ | ----------------------- | ------------------- | -------------------------------------------------- |
-| GET    | `/users/current`        | all users           | Returns info for the logged in user.               |
-| GET    | `/users/org/:userId`    | owners, supervisors | Returns all users for an organization.             |
-| GET    | `/users/:userId`        | owners, supervisors | Returns info for a single user.                    |
-| POST   | `/users/register/owner` | none                | Creates a new user as owner of a new organization. |
-| PUT    | `/users/:userId`        | owners, supervisors |                                                    |
-| DELETE | `/users/:userId`        | owners, supervisors |                                                    |
+| Method | Endpoint                | Access Control  | Description                                        |
+| ------ | ----------------------- | --------------- | -------------------------------------------------- |
+| GET    | `/users`                | public          | Returns a list of all registered users.            |
+| GET    | `/users/:userId`        | public          | Returns info for a single user.                    |
+| PUT    | `/users/`               | registered user | Updates a users `firstName` & `lastName`.          |
+
+There are six test users seeded into the database:
+| Email           | Password |
+| --------------- | -------- |
+| test1@gmail.com | test     |
+| test2@gmail.com | test2    |
+| test3@gmail.com | test3    |
+| test4@gmail.com | test4    |
+| test5@gmail.com | test5    |
+| test6@gmail.com | test6    |
 
 # Data Model
 
-🚫This is just an example. Replace this with your data model
-
-#### 2️⃣ ORGANIZATIONS
+#### 2️⃣ BASIC USERS
 
 ---
 
 ```
 {
-  id: UUID
-  name: STRING
-  industry: STRING
-  paid: BOOLEAN
-  customer_id: STRING
-  subscription_id: STRING
-}
-```
-
-#### USERS
-
----
-
-```
-{
-  id: UUID
-  organization_id: UUID foreign key in ORGANIZATIONS table
-  first_name: STRING
-  last_name: STRING
-  role: STRING [ 'owner', 'supervisor', 'employee' ]
-  email: STRING
-  phone: STRING
-  cal_visit: BOOLEAN
-  emp_visit: BOOLEAN
-  emailpref: BOOLEAN
-  phonepref: BOOLEAN
+  id: integer
+  username: STRING
+  firstName: STRING
+  lastName: STRING
+  reviewCount: integer
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
 }
 ```
 
@@ -116,19 +105,16 @@ To get the server running locally:
 
 `deleteUser(userId)` -> deletes everything dependent on the user
 
-## 3️⃣ Environment Variables
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
 
-🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    *  DEV_SERVER - development database url
+    *  JWT_SECRET - secret for jwtoken
+    *  TESTING_DATABASE - database url for testing environment
+    *  ENVIRONMENT - set to "development" until ready for "production"
     
 ## Contributing
 
@@ -170,3 +156,6 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
 🚫 Add DS iOS and/or Andriod links here if applicable.
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/test_coverage)
