@@ -34,7 +34,7 @@ server.use("/tokenRoute", tokenRoute);
 
 // HOMEPAGE ROUTING
 server.get("/", async (req, res) => {
-  console.log("Yes, it is working");
+  res.status(200).json({ message: "WhereToCode Server Is Working" });
 });
 
 // ERROR HANDLER

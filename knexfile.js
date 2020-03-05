@@ -21,6 +21,19 @@ module.exports = {
     },
     testing: {
         client: "pg",
+        connection: process.env.TESTING_DATABASE,
+        // ssl: true,
+        migrations: {
+            directory: "./migrations",
+            tableName: "knex_migrations"
+        },
+        seeds: {
+            directory: "./seeds"
+        }
+
+    },
+    staging: {
+        client: "pg",
         connection: process.env.DATABASE_URL,
         // ssl: true,
         migrations: {
