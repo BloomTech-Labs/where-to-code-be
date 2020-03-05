@@ -17,6 +17,7 @@ To get the server running locally:
 - create **.env**
   - **DEV_SERVER** development database url
   - **JWT_SECRET** secret for jwtoken
+  - **TESTING_DATABASE** database url for testing environment
 - **knex migrate:latest** migrate tables for database
 - **knex seed:run** runs seeded testing data
 - **yarn server** to start the local server
@@ -104,19 +105,16 @@ There are six test users seeded into the database:
 
 `deleteUser(userId)` -> deletes everything dependent on the user
 
-## 3️⃣ Environment Variables
+## Environment Variables
 
 In order for the app to function correctly, the user must set up their own environment variables.
 
 create a .env file that includes the following:
 
-🚫 These are just examples, replace them with the specifics for your app
-    
-    *  STAGING_DB - optional development db for using functionality not available in SQLite
-    *  NODE_ENV - set to "development" until ready for "production"
-    *  JWT_SECRET - you can generate this by using a python shell and running import random''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&amp;*(-*=+)') for i in range(50)])
-    *  SENDGRID_API_KEY - this is generated in your Sendgrid account
-    *  stripe_secret - this is generated in the Stripe dashboard
+    *  DEV_SERVER - development database url
+    *  JWT_SECRET - secret for jwtoken
+    *  TESTING_DATABASE - database url for testing environment
+    *  ENVIRONMENT - set to "development" until ready for "production"
     
 ## Contributing
 
