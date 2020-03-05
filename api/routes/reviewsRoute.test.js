@@ -11,7 +11,7 @@ const test_reviews = [
     upload_speed: 4,
     download_speed: 7.1,
     secure_wifi: false,
-    user_id: 2,
+    user_id: 1,
     location_id: 2
   },
   {
@@ -21,7 +21,7 @@ const test_reviews = [
     upload_speed: 1,
     download_speed: 2,
     secure_wifi: false,
-    user_id: 2,
+    user_id: 1,
     location_id: 4
   }
 ];
@@ -33,7 +33,7 @@ const singleReview = {
   upload_speed: 3,
   download_speed: 4,
   secure_wifi: false,
-  user_id: 2,
+  user_id: 1,
   location_id: 1
 };
 
