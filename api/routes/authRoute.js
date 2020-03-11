@@ -60,6 +60,15 @@ router.post("/user/register", checkRegisterCreds, async (req, res) => {
 
 router.use(authenticate);
 
+// @route  GET /auth/info
+// @desc   Get a users information for the dashboard
+// @access Restricted
+router.get('/info', async (req, res) => {
+  const { userId } = res.locals.decodedToken;
+  const [user] = await USERS_MODEL.getUserInfo(userId);
+  return res.status(200).json(user);
+});
+
 // @route  PUT /auth/update
 // @desc   Updates a users account
 // @access Restricted
