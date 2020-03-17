@@ -40,6 +40,7 @@ To get the server running locally:
 | ------ | ----------------------- | --------------- | -------------------------------------------- |
 | POST   | `/auth/user/register`   | public          | Create an account for a basic user.          |
 | POST   | `/auth/login`           | public          | Login to a users account.                    |
+| GET    | `/auth/info`            | registered user | Validate token and retrieve user data        | 
 | PUT    | `/auth/update`          | registered user | Update a users credentials.                  |
 | DELETE | `/auth/delete-account`  | registered user | Delete the users account.                    |
 

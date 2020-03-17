@@ -17,7 +17,7 @@ router.post("/login", async (req, res) => {
   try {
     const [user] = await USER_CREDS.findBy({ email });
     if (user && bcrypt.compareSync(password, user.password)) {
-      const [userInfo] = await USERS_MODEL.getUserById(user.id);
+      const [userInfo] = await USERS_MODEL.getUserInfo(user.id);
       return res.status(200).json({ ...userInfo, token: signToken(user)});
     }
     return res.status(401).json({ message: "Invalid credentials." });
@@ -43,7 +43,6 @@ router.post("/user/register", checkRegisterCreds, async (req, res) => {
     lastName: req.body.lastName
   };
 
-  try {
     const [addedUserCreds] = await USER_CREDS.add(userCreds); // add user credentials to user_creds table
     const {password, ...userCredsRest} = addedUserCreds; // remove password from response object
 
@@ -51,14 +50,21 @@ router.post("/user/register", checkRegisterCreds, async (req, res) => {
 
     return res.status(201).json({
       ...addedUserInfo,
+      email: userCreds.email,
       token: signToken(userCredsRest)
     });
-  } catch (err) {
-    res.status(500).json({ message: "Error adding user." });
-  }
 });
 
 router.use(authenticate);
+
+// @route  GET /auth/info
+// @desc   Get a users information for the dashboard
+// @access Restricted
+router.get('/info', async (req, res) => {
+  const { userId } = res.locals.decodedToken;
+  const [user] = await USERS_MODEL.getUserInfo(userId);
+  return res.status(200).json(user);
+});
 
 // @route  PUT /auth/update
 // @desc   Updates a users account

@@ -1,6 +1,6 @@
 module.exports = (err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  const env = process.env.DB_ENVIRONMENT || 'development';
+  const env = process.env.ENVIRONMENT || 'development';
   let error;
   
   if (env === 'development' && statusCode > 499) {
