@@ -19,13 +19,13 @@ module.exports = {
 function getAll_reviewsWithUser() {
   return db("reviews as r")
     .join("users as u", "r.user_id", "u.id")
-    .select("r.rating", "r.id as ratingId", "r.comments", "r.internet_rating", "r.upload_speed", "r.download_speed", "r.secure_wifi", "r.user_id", "r.location_id", "u.userName")
+    .select("r.rating", "r.id as ratingId", "r.comments", "r.internet_rating", "r.upload_speed", "r.download_speed", "r.secure_wifi", "r.user_id", "r.location_id", "u.username")
 }
 
 function getReviewById(id) {
   return db("reviews as r")
     .join("users as u", "r.user_id", "u.id")
-    .select("r.id", "r.rating", "r.comments", "r.internet_rating", "r.upload_speed", "r.download_speed", "r.secure_wifi", "r.user_id", "r.location_id", "u.userName")
+    .select("r.id", "r.rating", "r.comments", "r.internet_rating", "r.upload_speed", "r.download_speed", "r.secure_wifi", "r.user_id", "r.location_id", "u.username")
     .where("r.id", id);
 }
 
@@ -34,7 +34,7 @@ function getReviewsByUser(id) {
   return db("reviews as r")
     .join("users as u", "r.user_id", "u.id")
     .join("locations as l", "r.location_id", "l.id")
-    .select("u.id as userId", "u.userName", "l.locationName", "r.rating", "r.comments", "r.internet_rating")
+    .select("u.id as userId", "u.username", "l.locationName", "r.rating", "r.comments", "r.internet_rating")
     .where("u.id", id);
 }
 
@@ -43,7 +43,7 @@ function getReviewsByLocation(id) {
   return db("reviews as r")
     .join("users as u", "r.user_id", "u.id")
     .join("locations as l", "r.location_id", "l.id")
-    .select("r.id as ratingId", "l.id as locationId", "r.rating ", "r.comments", "r.internet_rating", "u.id", "u.userName")
+    .select("r.id as ratingId", "l.id as locationId", "r.rating ", "r.comments", "r.internet_rating", "u.id", "u.username")
     .where("l.id", id);
 }
 
@@ -52,7 +52,7 @@ function getReviewsByGoogleLocation(id) {
   return db("reviews as r")
     .join("users as u", "u.id", "r.user_id")
     .join("locations as l", "r.location_id", "l.id")
-    .select("r.id as ratingId", "r.rating ", "r.comments", "r.internet_rating", "u.id", "u.userName")
+    .select("r.id as ratingId", "r.rating ", "r.comments", "r.internet_rating", "u.id", "u.username")
     .where("l.locationGoogleId", id);
 }
 
@@ -61,7 +61,7 @@ function getReviewsByLocationUser(id, userid) {
   return db("reviews as r")
     .join("users as u", "u.id", "r.user_id")
     .join("locations as l", "r.location_id", "l.id")
-    .select("r.id as ratingId", "r.rating ", "r.comments", "r.internet_rating", "u.id", "u.userName")
+    .select("r.id as ratingId", "r.rating ", "r.comments", "r.internet_rating", "u.id", "u.username")
     .where({ "r.location_id": id, "r.user_id": userid });
 }
 
@@ -70,7 +70,7 @@ function getFirstReviewByLocation(id) {
   return db("reviews as r")
     .join("users as u", "u.id", "r.user_id")
     .join("locations as l", "r.location_id", "l.id")
-    .select("r.id as ratingId", "r.rating ", "r.comments", "r.internet_rating", "u.id", "u.userName")
+    .select("r.id as ratingId", "r.rating ", "r.comments", "r.internet_rating", "u.id", "u.username")
     .where("l.id", id).first();
 }
 
@@ -81,7 +81,7 @@ function firstHighestRating(id) {
   return db("reviews as r")
     .join("users as u", "u.id", "r.user_id")
     .join("locations as l", "r.location_id", "l.id")
-    .select("l.locationName", "r.id as ratingId", "r.rating as rating_score", "r.comments", "r.internet_rating", "r.secure_wifi", "u.id as userId", "u.userName")
+    .select("l.locationName", "r.id as ratingId", "r.rating as rating_score", "r.comments", "r.internet_rating", "r.secure_wifi", "u.id as userId", "u.username")
     .where("l.id", id).andWhere(function () {
       this.max("r.rating")
     }).first()

@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
 const helmet = require("helmet");
+require('express-async-errors');
 
 // Importing of Routes
 const authRoute = require("./routes/authRoute.js");
@@ -10,9 +11,9 @@ const locationsRoute = require("./routes/locationsRoute.js");
 const usersRoute = require("./routes/usersRoute.js");
 const reviewsRoute = require("./routes/reviewsRoute.js");
 const routes = require("./routes");
+const errorHandler = require("./middleware/errorHandler");
 
 const tokenRoute = require("./routes/tokenRoute.js");
-// const signToken = require('./middleware/signToken.js')
 
 // SERVER
 const server = express();
@@ -33,8 +34,11 @@ server.use("/tokenRoute", tokenRoute);
 
 // HOMEPAGE ROUTING
 server.get("/", async (req, res) => {
-  console.log("Yes, it is working");
+  res.status(200).json({ message: "WhereToCode Server Is Working" });
 });
+
+// ERROR HANDLER
+server.use(errorHandler);
 
 // EXPORTS
 module.exports = server;
