@@ -1,39 +1,33 @@
 const db = require("../../config/knexConfig");
 
-const getAll_locations = () => {
-  return db("locations");
-};
-
-const getLocationsById = (id) => {
-  return db("locations").where({ id })
-};
-
-
-
-
-async function add(location) {
-  location.map(async loc => {
-
-    await db('locations').whereNot('locations.locoationGoogleId', loc.id).insert(loc).return(location);
-  })
-}
-
-
-
-function getLocationByGoogleId(locationGoogleId) {
-  return db("locations").where({ locationGoogleId })
-};
-
-const updateLocation = () => { };
-
-const deleteLocation = () => { };
-
-// EXPORTS
 module.exports = {
   getAll_locations,
+  getLocationsBy,
+  addLocation,
   updateLocation,
-  deleteLocation,
-  add,
-  getLocationByGoogleId,
-  getLocationsById
+  deleteLocation
 };
+
+function getAll_locations() {
+  return db("locations");
+}
+
+function getLocationsBy(id) {
+  return db("locations").where(id);
+}
+
+function addLocation(location) {
+  return db("locations").insert(location, ["*"]);
+}
+
+function updateLocation(id, update) {
+  return db("locations")
+    .where({ id })
+    .update(update, ["*"]);
+}
+
+function deleteLocation() {
+  return db("locations")
+    .where({ id })
+    .del();
+}

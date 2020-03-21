@@ -105,6 +105,19 @@ There are six test users seeded into the database:
 `updateUser(userId, changes object)` -> Updates a single user by ID.
 
 `deleteUser(userId)` -> deletes everything dependent on the user
+<br>
+<br>
+<br>
+`getAll_locations()` -> Returns all locations
+
+`getLocationsBy(id)` ->  Returns a single location by id.
+  - Supplied as object: `{ id: 1 }` or `{ googleId: "jh5678ujklo0987udsew2qwsdfdr2222" }`
+
+`addLocation(location)` -> Returns the added location object inside an array.
+
+`updateLocation(id, update)` -> Update a location by id.
+
+`deleteLocation(id)` -> Delete a location by id.
 
 ## Environment Variables
 
