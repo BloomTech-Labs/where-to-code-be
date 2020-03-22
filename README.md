@@ -64,19 +64,34 @@ There are six test users seeded into the database:
 
 # Data Model
 
-#### 2️⃣ BASIC USERS
+#### BASIC USERS
 
 ---
 
 ```
 {
-  id: integer
+  id: INTEGER
   username: STRING
   firstName: STRING
   lastName: STRING
-  reviewCount: integer
+  reviewCount: INTEGER
   created_at: TIMESTAMP
   updated_at: TIMESTAMP
+}
+```
+
+#### LOCATIONS
+
+---
+
+```
+{
+  id: INTEGER,
+  googleId: STRING, // used when storing location from google
+  name: STRING,
+  address: STRING,
+  phone: STRING,
+  icon: STRING      // url for image of location
 }
 ```
 

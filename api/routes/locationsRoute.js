@@ -1,5 +1,6 @@
 // IMPORTS
 const LOCATIONS_MODEL = require("../models/LocationsModel.js");
+const requireBody = require("../middleware/requireBody");
 const authenticate = require("../middleware/authenticate.js");
 
 // EXPRESS ROUTER
@@ -32,22 +33,16 @@ router.get("/:fbid", async (req, res) => {
 router.post("/", requireBody, async (req, res) => {
   let location = req.body;
   try {
+    if (!!location.googleId) {
+      const loc = await LOCATIONS_MODEL.add({ googleId: location.googleId });
+      return res.status(201).json(loc);
+    }
     const addedLocation = await LOCATIONS_MODEL.add(location);
-    return res
-      .status(201)
-      .json({ message: "New location added", addedLocation });
+    return res.status(201).json(addedLocation);
   } catch (err) {
     return res.status(500).json(err.message);
   }
 });
-
-function requireBody(req, res, next) {
-  if (req.body && Object.keys(req.body).length) {
-    next();
-  } else {
-    res.status(500).json({ message: "Please include request body" });
-  }
-}
 
 // - POST - //
 // - PUT - //
