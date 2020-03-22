@@ -2,7 +2,7 @@ const db = require("../../config/knexConfig");
 
 module.exports = {
   getAll_locations,
-  getLocationsBy,
+  getLocationBy,
   addLocation,
   updateLocation,
   deleteLocation
@@ -12,7 +12,7 @@ function getAll_locations() {
   return db("locations");
 }
 
-function getLocationsBy(id) {
+function getLocationBy(id) {
   return db("locations").where(id);
 }
 
