@@ -6,7 +6,7 @@ const authenticate = require("../middleware/authenticate.js");
 // EXPRESS ROUTER
 const router = require("express").Router();
 
-// @route  GET locations/
+// @route  GET /locations/
 // @desc   Gets all of the locations in the database
 // @access Public
 router.get("/", async (req, res) => {
@@ -19,17 +19,18 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:fbid", async (req, res) => {
-  const { fbid } = req.params;
-  try {
-    let result = await LOCATIONS_MODEL.getLocationByGoogleId(fbid);
-    return res.status(200).json(result);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ msg: err });
-  }
+// @route  GET /locations/:id
+// @desc   Gets a single location based on id || googleId
+// @access Public
+router.get("/:id", findLocation, (req, res) => {
+  !!res.locals.location
+    ? res.status(200).json(res.locals.location)
+    : res.status(404).json({ message: "Location not found." });
 });
 
+// @route  POST /locations/
+// @desc   Add a location to the database
+// @access Public
 router.post(
   "/",
   requireBody,
@@ -85,7 +86,7 @@ function findLocation(req, res, next) {
 
 function verifyLocationKeys(req, res, next) {
   const location = req.body;
-  if (!!location.googleId) return next();     // skip check if object contains googleId
+  if (!!location.googleId) return next(); // skip check if object contains googleId
   const keys = ["name", "address", "phone"];
   keys.forEach(key => {
     if (!Object.keys(location).includes(key))
