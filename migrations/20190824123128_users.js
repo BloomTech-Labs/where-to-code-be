@@ -10,6 +10,7 @@ exports.up = async function(knex) {
 
   await knex.schema.createTable("users", tbl => {
     tbl.integer("id") // - primary key
+      .unsigned()
       .primary()
       .notNullable()
       .unique()
