@@ -6,6 +6,15 @@ const findLocation = require("../middleware/locations/findLocation");
 
 router.use(authenticate);
 
+// @route  GET /locations/saved/
+// @desc   Retrieve a users saved locations
+// @access Basic Users
+router.get("/", async (req, res) => {
+  const userId = res.locals.decodedToken.userId;
+  const locations = await SAVED.getSavedLocations(userId);
+  locations.length ? res.status(200).json(locations) : res.status(204).end();
+});
+
 // @route  POST /locations/saved/:locationId
 // @desc   Add a location to users saved locations
 // @access Basic Users
