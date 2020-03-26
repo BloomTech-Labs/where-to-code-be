@@ -1,10 +1,17 @@
 // IMPORTS
 const LOCATIONS_MODEL = require("../models/LocationsModel.js");
+
 const requireBody = require("../middleware/requireBody");
 const authenticate = require("../middleware/authenticate.js");
+const findLocation = require("../middleware/locations/findLocation");
 
 // EXPRESS ROUTER
 const router = require("express").Router();
+
+// ROUTES
+const savedLocationsRouter = require("./savedLocationsRoute");
+
+router.use("/saved", savedLocationsRouter);
 
 // @route  GET /locations/
 // @desc   Gets all of the locations in the database
@@ -54,36 +61,6 @@ router.post(
 // - DEL - //
 
 // MIDDLEWARE
-function findLocation(req, res, next) {
-  let location = req.body;
-  if (!!req.params.id)
-    location = { id: req.params.id, googleId: req.params.id };
-
-  const findBy = id => {
-    if (location[id])
-      return LOCATIONS_MODEL.getLocationBy({ [id]: location[id] }); // if location object has id, return getLocationBy(id)
-    return new Promise(resolve => resolve([])); // else return an empty array
-  };
-
-  const assign = location => {
-    res.locals.location = location; // assign found location to res.locals for use in request
-    return next();
-  };
-
-  findBy("googleId").then(loc => {
-    if (loc.length) assign(loc[0]);
-    else
-      findBy("id").then(loc => {
-        if (loc.length) assign(loc[0]);
-        else
-          findBy("address").then(loc => {
-            if (loc.length) assign(loc[0]);
-            return next();
-          });
-      });
-  });
-}
-
 function verifyLocationKeys(req, res, next) {
   const location = req.body;
   if (!!location.googleId) return next(); // skip check if object contains googleId
