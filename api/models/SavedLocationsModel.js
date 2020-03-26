@@ -18,5 +18,5 @@ function addSavedLocation(userId, locationId) {
 }
 
 function removeSavedLocation(userId, locationId) {
-  return db("save_locations").where({ userId, locationId });
+  return db("saved_locations").where({ userId, locationId }).del();
 }
