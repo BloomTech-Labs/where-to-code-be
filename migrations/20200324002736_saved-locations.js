@@ -1,6 +1,6 @@
 
-exports.up = function(knex) {
-  knex.schema.createTable("saved_locations", tbl => {
+exports.up = async function(knex) {
+  await knex.schema.createTable("saved_locations", tbl => {
     tbl.integer("userId")
       .unsigned()
       .notNullable()
@@ -15,10 +15,10 @@ exports.up = function(knex) {
       .inTable("locations")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
-    tbl.primary(["usersId", "locationId"]);
+    tbl.primary(["userId", "locationId"]);
   })
 };
 
-exports.down = function(knex) {
-  knex.schema.dropTableIfExists("saved_locations");
+exports.down = async function(knex) {
+  await knex.schema.dropTableIfExists("saved_locations");
 };
