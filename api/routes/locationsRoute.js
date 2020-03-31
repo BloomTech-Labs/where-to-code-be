@@ -4,6 +4,7 @@ const LOCATIONS_MODEL = require("../models/LocationsModel.js");
 const requireBody = require("../middleware/requireBody");
 const authenticate = require("../middleware/authenticate.js");
 const findLocation = require("../middleware/locations/findLocation");
+const { googleLocationObject } = require("../google-maps-services");
 
 // EXPRESS ROUTER
 const router = require("express").Router();
@@ -29,9 +30,26 @@ router.get("/", async (req, res) => {
 // @route  GET /locations/:id
 // @desc   Gets a single location based on id || googleId
 // @access Public
-router.get("/:id", findLocation, (req, res) => {
+router.get("/:id", findLocation, async (req, res) => {
+  const location = res.locals.location;
+
+  const respond = async () => {
+    let responseObject;
+    if (!!location.googleId)
+      responseObject = await googleLocationObject(location);
+    else
+      responseObject = {
+        id: location.id,
+        name: location.name,
+        address: location.address,
+        phone: location.phone,
+        icon: location.icon
+      };
+    res.status(200).json(responseObject);
+  };
+
   !!res.locals.location
-    ? res.status(200).json(res.locals.location)
+    ? respond()
     : res.status(404).json({ message: "Location not found." });
 });
 
