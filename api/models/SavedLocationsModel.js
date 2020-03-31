@@ -8,7 +8,14 @@ module.exports = {
 
 function getSavedLocations(userId) {
   return db("saved_locations as s")
-    .select(["*"])
+    .select([
+      "l.id",
+      "l.googleId",
+      "l.name",
+      "l.address",
+      "l.phone",
+      "l.icon"
+    ])
     .where({ userId })
     .join("locations as l", { "s.locationId": "l.id" });
 }
