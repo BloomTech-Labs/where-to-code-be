@@ -3,6 +3,7 @@ const SAVED = require("../models/SavedLocationsModel");
 
 const authenticate = require("../middleware/authenticate.js");
 const findLocation = require("../middleware/locations/findLocation");
+const { googleLocationObject } = require("../google-maps-services/index");
 
 router.use(authenticate);
 
@@ -10,9 +11,28 @@ router.use(authenticate);
 // @desc   Retrieve a users saved locations
 // @access Basic Users
 router.get("/", async (req, res) => {
+  const respond = locationsList => {
+    Promise.all(
+      locationsList.map(async l => {
+        let location = {
+          id: l.id,
+          name: l.name,
+          address: l.address,
+          phone: l.phone,
+          icon: l.icon
+        };
+        if (!!l.googleId) location = await googleLocationObject(l);
+
+        return location;
+      })
+    ).then(locations => {
+      res.status(200).json(locations);
+    });
+  };
+
   const userId = res.locals.decodedToken.userId;
   const locations = await SAVED.getSavedLocations(userId);
-  locations.length ? res.status(200).json(locations) : res.status(204).end();
+  locations.length ? respond(locations) : res.status(204).end();
 });
 
 // @route  POST /locations/saved/:locationId
