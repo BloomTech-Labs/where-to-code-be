@@ -6,16 +6,21 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex("locations").insert([
         {
-          googleId: "jh5678ujklo0987udsew2qwsdfdr2222"
+          googleId: "ChIJOXb02ECuEmsR_UWvHCtCG-Q"
         },
         {
-          googleId: "jkjhy65rtfdsew345tyhu2qwsdfd2222"
+          googleId: "ChIJC5l9fqtYXIYRWY2C5prI2Bg"
         },
         {
-          googleId: "jhmjhgfrty7654ertgfrgfdsdfdr222"
+          googleId: "ChIJXXeqGatYXIYRoce9HbGhKVI"
         },
         {
-          googleId: "jhmjhgfrty7654ert2222"
+          googleId: "ChIJRYcAgQ37XoYRpa0yd-0lElQ"
+        },
+        {
+          "name": "Bob's Burgers",
+          "address": "123 Burger Ln",
+          "phone": "(555)555-5555",
         }
       ]);
     });
