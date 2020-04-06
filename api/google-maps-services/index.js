@@ -16,6 +16,10 @@ async function getPhotoUrl(ref) {
   }
 }
 
+/*
+  googleLocationObject takes in a location object, from our database,
+  and builds a response using details from Google Places API
+*/
 async function googleLocationObject(location) {
   try {
     const res = await googleLocation(location.googleId);

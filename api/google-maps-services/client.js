@@ -8,10 +8,11 @@ module.exports = {
 const client = new Client({});
 const key = process.env.GCP_KEY;
 
-function googleLocation(googleIds) {
+// googleLocation takes a Google Place Id and returns a promise
+function googleLocation(googleId) {
   return client.placeDetails({
     params: {
-      place_id: googleIds,
+      place_id: googleId,
       fields: "name,formatted_address,formatted_phone_number,icon,photos",
       key
     },
@@ -19,6 +20,7 @@ function googleLocation(googleIds) {
   });
 }
 
+// googlePlacePhoto takes a reference Id and returns a promise
 function googlePlacePhoto(photoreference) {
   return client.placePhoto({
     params: {
