@@ -17,6 +17,7 @@ To get the server running locally:
 - create **.env**
   - **DEV_SERVER** development database url
   - **JWT_SECRET** secret for jwtoken
+  - **GCP_KEY** API key for Google Cloud Platform
   - **TESTING_DATABASE** database url for testing environment
 - **knex migrate:latest** migrate tables for database
 - **knex seed:run** runs seeded testing data
@@ -61,6 +62,17 @@ There are six test users seeded into the database:
 | test4@gmail.com | test4    |
 | test5@gmail.com | test5    |
 | test6@gmail.com | test6    |
+
+#### Location Routes
+
+| Method | Endpoint                        | Access Control  | Description                                        |
+| ------ | ------------------------------- | --------------- | -------------------------------------------------- |
+| GET    | `/locations`                    | public          | Gets all of the locations in the database.         |
+| GET    | `/locations/:id`                | public          | Gets a single location based on `id` or `googleId`.|
+| POST   | `/locations`                    | public          | Adds a location to the database.                   |
+| GET    | `/locations/saved`              | registered user | Retrieve a users saved locations.                  |
+| POST   | `/locations/saved/:locationId`  | registered user | Adds a location to a users saved list.             |
+| DELETE | `/locations/saved/:locationId`  | registered user | Remove a location from users saved list.           |
 
 # Data Model
 
@@ -133,6 +145,14 @@ There are six test users seeded into the database:
 `updateLocation(id, update)` -> Update a location by id.
 
 `deleteLocation(id)` -> Delete a location by id.
+<br>
+<br>
+<br>
+`googleLocationObject(location)` -> Returns a location object using location.googleId.
+
+`findLocation()` -> Middleware that finds a location and adds it to res.locals.location
+
+`addIfDoesNotExist()` -> Middleware that adds Google Place ID to our database before next()
 
 ## Environment Variables
 
@@ -144,6 +164,7 @@ create a .env file that includes the following:
     *  JWT_SECRET - secret for jwtoken
     *  TESTING_DATABASE - database url for testing environment
     *  ENVIRONMENT - set to "development" until ready for "production"
+    *  GCP_KEY - API token for Google Cloud Platform
     
 ## Contributing
 
