@@ -1,12 +1,10 @@
 const router = require("express").Router();
 const SAVED = require("../models/SavedLocationsModel");
 
-const authenticate = require("../middleware/authenticate.js");
+// MIDDLEWARE
 const findLocation = require("../middleware/locations/findLocation");
 const addIfDoesNotExist = require("../middleware/locations/addIfDoesNotExist");
 const { googleLocationObject } = require("../google-maps-services/index");
-
-router.use(authenticate);
 
 // @route  GET /locations/saved/
 // @desc   Retrieve a users saved locations
@@ -39,7 +37,7 @@ router.get("/", async (req, res) => {
 // @route  POST /locations/saved/:locationId
 // @desc   Add a location to users saved locations
 // @access Basic Users
-router.post("/:id", findLocation, addIfDoesNotExist, async (req, res) => {
+router.post("/:locationId", findLocation, addIfDoesNotExist, async (req, res) => {
   const userId = res.locals.decodedToken.userId;
   const locationId = res.locals.location.id;
   const success = await SAVED.addSavedLocation(userId, locationId);
@@ -49,7 +47,7 @@ router.post("/:id", findLocation, addIfDoesNotExist, async (req, res) => {
 // @route  DELETE /locations/saved/:locationId
 // @desc   Remove a location from users saved list
 // @access Basic Users
-router.delete("/:id", findLocation, async (req, res) => {
+router.delete("/:locationId", findLocation, async (req, res) => {
   const userId = res.locals.decodedToken.userId;
   const locationId = res.locals.location.id;
   const success = await SAVED.removeSavedLocation(userId, locationId);
