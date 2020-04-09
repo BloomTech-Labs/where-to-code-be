@@ -5,6 +5,7 @@ const {
 
 module.exports = {
   googleLocationObject,
+  formatLocationObject,
   formatAllLocationObjects,
 };
 
@@ -44,19 +45,23 @@ async function googleLocationObject(location) {
   }
 }
 
+async function formatLocationObject(location) {
+  let formatted = {
+    id: location.id,
+    name: location.name,
+    address: location.address,
+    phone: location.phone,
+    icon: location.icon,
+  };
+  if (!!location.googleId) formatted = await googleLocationObject(location);
+
+  return formatted;
+}
+
 async function formatAllLocationObjects(locationsList) {
   return await Promise.all(
     locationsList.map(async (l) => {
-      let location = {
-        id: l.id,
-        name: l.name,
-        address: l.address,
-        phone: l.phone,
-        icon: l.icon,
-      };
-      if (!!l.googleId) location = await googleLocationObject(l);
-
-      return location;
+      return await formatLocationObject(l)
     })
   ).then((locations) => {
     return locations;
