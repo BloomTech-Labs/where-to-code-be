@@ -11,7 +11,7 @@ module.exports = addIfDoesNotExist;
 
 async function addIfDoesNotExist(req, res, next) {
   if (!!res.locals.location) return next();
-  if (req.params.id.length < 10) return next();
+  if (req.params.locationId.length < 10) return next();
   const [loc] = await LOCATIONS.addLocation({ googleId: req.params.id });
   res.locals.location = loc;
   next();

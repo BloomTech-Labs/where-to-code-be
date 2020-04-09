@@ -11,8 +11,10 @@ const router = require("express").Router();
 
 // ROUTES
 const savedLocationsRouter = require("./savedLocationsRoute");
+const userVisitsRouter = require("./userVisitsRoute");
 
-router.use("/saved", savedLocationsRouter);
+router.use("/saved", authenticate, savedLocationsRouter);
+router.use("/visited", authenticate, userVisitsRouter);
 
 // @route  GET /locations/
 // @desc   Gets all of the locations in the database
@@ -30,7 +32,7 @@ router.get("/", async (req, res) => {
 // @route  GET /locations/:id
 // @desc   Gets a single location based on id || googleId
 // @access Public
-router.get("/:id", findLocation, async (req, res) => {
+router.get("/:locationId", findLocation, async (req, res) => {
   const location = res.locals.location;
 
   const respond = async () => {
