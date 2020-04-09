@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const VISITS = require("../models/UserVisitsModel");
+const { formatLocationObject } = require("../google-maps-services");
 
 // MIDDLEWARE
 const findLocation = require("../middleware/locations/findLocation");
@@ -11,7 +12,21 @@ const addIfDoesNotExist = require("../middleware/locations/addIfDoesNotExist");
 router.get("/", async (req, res) => {
   const userId = res.locals.decodedToken.userId;
   const visited = await VISITS.getRecentlyVisited(userId);
-  return res.status(200).json(visited);
+  if (visited.length) {
+    const response = await Promise.all(
+      visited.map(async (visit) => {
+        const loc = await formatLocationObject(visit.location);
+        return {
+          ...visit,
+          location: loc,
+        };
+      })
+    );
+    return res.status(200).json(response);
+  }
+  return res
+    .status(200)
+    .json({ message: "You haven't visited any locations." });
 });
 
 router.post("/:locationId", findLocation, addIfDoesNotExist, (req, res) => {
@@ -20,7 +35,9 @@ router.post("/:locationId", findLocation, addIfDoesNotExist, (req, res) => {
 
   location
     ? respond()
-    : res.status(400).json({ message: "There was an error finding this location." });
+    : res
+        .status(400)
+        .json({ message: "There was an error finding this location." });
 
   async function respond() {
     const success = await VISITS.addUserVisit(userId, location.id);
