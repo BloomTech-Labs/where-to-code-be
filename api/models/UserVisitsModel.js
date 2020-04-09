@@ -1,4 +1,5 @@
 const db = require("../../config/knexConfig");
+const NestHydrationJS = require('nesthydrationjs')();
 
 module.exports = {
   getRecentlyVisited,
@@ -11,16 +12,33 @@ function getRecentlyVisited(userId) {
     .where({ "u.userId": userId })
     .join("locations as l", { "u.locationId": "l.id" })
     .select([
-      "u.id as _id",
-      "l.id as _location_id",
-      "l.googleId as _location_googleId",
-      "l.name as _location_name",
-      "l.address as _location_address",
-      "l.phone as _location_phone",
-      "l.icon as _location_icon",
-      "u.timestamp as _timestamp",
+      "u.id as id",
+      "l.id as location_id",
+      "l.googleId as location_googleId",
+      "l.name as location_name",
+      "l.address as location_address",
+      "l.phone as location_phone",
+      "l.icon as location_icon",
+      "u.timestamp as timestamp",
     ])
-    .orderBy("u.timestamp", "desc");
+    .orderBy("u.timestamp", "desc")
+    .then((results) => {
+      const dataModel = [
+        {
+          id: "id",
+          timestamp: "timestamp",
+          location: {
+            id: "location_id",
+            googleId: "location_googleId",
+            name: "location_name",
+            address: "location_address",
+            phone: "location_phone",
+            icon: "location_icon",
+          },
+        },
+      ];
+      return NestHydrationJS.nest(results, dataModel);
+    });
 }
 
 function addUserVisit(userId, locationId) {
