@@ -53,15 +53,17 @@ async function formatLocationObject(location) {
     phone: location.phone,
     icon: location.icon,
   };
-  if (!!location.googleId) formatted = await googleLocationObject(location);
-
+  if (!!location.googleId) {
+    formatted = await googleLocationObject(location);
+    formatted.googleId = location.googleId;
+  }
   return formatted;
 }
 
 async function formatAllLocationObjects(locationsList) {
   return await Promise.all(
     locationsList.map(async (l) => {
-      return await formatLocationObject(l)
+      return await formatLocationObject(l);
     })
   ).then((locations) => {
     return locations;
