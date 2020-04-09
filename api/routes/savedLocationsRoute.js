@@ -23,12 +23,17 @@ router.get("/", async (req, res) => {
 // @route  POST /locations/saved/:locationId
 // @desc   Add a location to users saved locations
 // @access Basic Users
-router.post("/:locationId", findLocation, addIfDoesNotExist, async (req, res) => {
-  const userId = res.locals.decodedToken.userId;
-  const locationId = res.locals.location.id;
-  const success = await SAVED.addSavedLocation(userId, locationId);
-  !!success ? res.status(204).end() : res.status(400).end();
-});
+router.post(
+  "/:locationId",
+  findLocation,
+  addIfDoesNotExist,
+  async (req, res) => {
+    const userId = res.locals.decodedToken.userId;
+    const locationId = res.locals.location.id;
+    const success = await SAVED.addSavedLocation(userId, locationId);
+    !!success ? res.status(204).end() : res.status(400).end();
+  }
+);
 
 // @route  DELETE /locations/saved/:locationId
 // @desc   Remove a location from users saved list
