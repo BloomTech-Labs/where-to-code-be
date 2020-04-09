@@ -7,9 +7,9 @@ module.exports = {
 };
 
 function getRecentlyVisited(userId) {
-  return db("users_visits as u")
+  return db("user_visits as u")
     .where({ "u.userId": userId })
-    .join("locations as l")
+    .join("locations as l", { "u.locationId": "l.id" })
     .select([
       "u.id as _id",
       "l.id as _location_id",
@@ -24,9 +24,9 @@ function getRecentlyVisited(userId) {
 }
 
 function addUserVisit(userId, locationId) {
-  return db("users_visits").insert({ userId, locationId });
+  return db("user_visits").insert({ userId, locationId });
 }
 
 function removeUserVisit(visitId) {
-  return db("users_visits").where({ id: visitId }).del();
+  return db("user_visits").where({ id: visitId }).del();
 }

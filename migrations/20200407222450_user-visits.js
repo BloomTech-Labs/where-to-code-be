@@ -1,5 +1,5 @@
 exports.up = async function (knex) {
-  await knex.schema.createTable("users_visits", (tbl) => {
+  await knex.schema.createTable("user_visits", (tbl) => {
     tbl.increments();
     tbl
       .integer("userId")
@@ -15,10 +15,11 @@ exports.up = async function (knex) {
       .inTable("locations")
       .onDelete("CASCADE")
       .onUpdate("CASCADE");
-    tbl.timestamp("timestamp");
+    tbl.timestamp("timestamp")
+      .defaultTo(knex.raw('CURRENT_TIMESTAMP'));
   });
 };
 
 exports.down = async function (knex) {
-  await knex.schema.dropTableIfExists("users_visits");
+  await knex.schema.dropTableIfExists("user_visits");
 };
