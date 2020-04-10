@@ -29,6 +29,9 @@ router.get("/", async (req, res) => {
     .json({ message: "You haven't visited any locations." });
 });
 
+// @route  POST /locations/visited/:locationId
+// @desc   Add a visited location to users profile.
+// @access Registered Users
 router.post("/:locationId", findLocation, addIfDoesNotExist, (req, res) => {
   const { userId } = res.locals.decodedToken;
   const location = res.locals.location;
@@ -41,6 +44,31 @@ router.post("/:locationId", findLocation, addIfDoesNotExist, (req, res) => {
 
   async function respond() {
     const success = await VISITS.addUserVisit(userId, location.id);
+    if (success) return res.status(204).end();
+    return res.status(400).end();
+  }
+});
+
+// @route  DELETE /locations/visited/:visitedId
+// @desc   Add a visited location to users profile.
+// @access Registered Users
+router.delete("/:visitId", async (req, res) => {
+  const { userId } = res.locals.decodedToken;
+  const visitId = req.params.visitId;
+
+  try {
+    const [visit] = await VISITS.getVisit(visitId);
+    visit.userId === userId
+      ? respond()
+      : res
+          .status(403)
+          .json({ message: "You are not allowed to complete this action." });
+  } catch (err) {
+    return res.status(400).json({ message: "This visit does not exist." });
+  }
+
+  async function respond() {
+    const success = await VISITS.removeUserVisit(visitId);
     if (success) return res.status(204).end();
     return res.status(400).end();
   }
