@@ -1,11 +1,16 @@
 const db = require("../../config/knexConfig");
-const NestHydrationJS = require('nesthydrationjs')();
+const NestHydrationJS = require("nesthydrationjs")();
 
 module.exports = {
+  getVisit,
   getRecentlyVisited,
   addUserVisit,
   removeUserVisit,
 };
+
+function getVisit(visitId) {
+  return db("user_visits as u").where({ "u.id": visitId });
+}
 
 function getRecentlyVisited(userId) {
   return db("user_visits as u")
