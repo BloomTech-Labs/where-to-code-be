@@ -10,7 +10,7 @@ const router = require("express").Router();
 router.get("/", async (req, res) => {
   // -- //
   // Secret
-  const secret = process.env.JWT_Secret;
+  const secret = process.env.JWT_SECRET;
   // Options
   const options = {
     expiresIn: "1d"

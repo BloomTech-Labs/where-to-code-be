@@ -1,11 +1,11 @@
 exports.up = async function(knex) {
   await knex.schema.createTable("locations", tbl => {
     tbl.increments(); // primary key - location id
-    tbl.string("locationName"); // name of location - not unique because cafe chains exist
-    tbl
-      .string("locationGoogleId")
-      .notNullable()
-      .unique(); //unique to differentiate between 1 Starbucks location from another
+    tbl.string("googleId").unique(); // id for goole-maps-api
+    tbl.string("name");
+    tbl.string("address").unique();
+    tbl.string("phone");
+    tbl.string("icon");
   });
 };
 

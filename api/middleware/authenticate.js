@@ -4,7 +4,7 @@ const JWT = require("jsonwebtoken");
 // FUNCTION
 function authenticate(req, res, next) {
   const token = req.headers.authorization;
-  const secret = process.env.JWT_Secret;
+  const secret = process.env.JWT_SECRET;
 
   if (token) {
     JWT.verify(token, secret, (err, decodedToken) => {

@@ -17,6 +17,7 @@ To get the server running locally:
 - create **.env**
   - **DEV_SERVER** development database url
   - **JWT_SECRET** secret for jwtoken
+  - **GCP_KEY** API key for Google Cloud Platform
   - **TESTING_DATABASE** database url for testing environment
 - **knex migrate:latest** migrate tables for database
 - **knex seed:run** runs seeded testing data
@@ -62,21 +63,47 @@ There are six test users seeded into the database:
 | test5@gmail.com | test5    |
 | test6@gmail.com | test6    |
 
+#### Location Routes
+
+| Method | Endpoint                        | Access Control  | Description                                        |
+| ------ | ------------------------------- | --------------- | -------------------------------------------------- |
+| GET    | `/locations`                    | public          | Gets all of the locations in the database.         |
+| GET    | `/locations/:id`                | public          | Gets a single location based on `id` or `googleId`.|
+| POST   | `/locations`                    | public          | Adds a location to the database.                   |
+| GET    | `/locations/saved`              | registered user | Retrieve a users saved locations.                  |
+| POST   | `/locations/saved/:locationId`  | registered user | Adds a location to a users saved list.             |
+| DELETE | `/locations/saved/:locationId`  | registered user | Remove a location from users saved list.           |
+
 # Data Model
 
-#### 2️⃣ BASIC USERS
+#### BASIC USERS
 
 ---
 
 ```
 {
-  id: integer
+  id: INTEGER
   username: STRING
   firstName: STRING
   lastName: STRING
-  reviewCount: integer
+  reviewCount: INTEGER
   created_at: TIMESTAMP
   updated_at: TIMESTAMP
+}
+```
+
+#### LOCATIONS
+
+---
+
+```
+{
+  id: INTEGER,
+  googleId: STRING, // used when storing location from google
+  name: STRING,
+  address: STRING,
+  phone: STRING,
+  icon: STRING      // url for image of location
 }
 ```
 
@@ -105,6 +132,27 @@ There are six test users seeded into the database:
 `updateUser(userId, changes object)` -> Updates a single user by ID.
 
 `deleteUser(userId)` -> deletes everything dependent on the user
+<br>
+<br>
+<br>
+`getAll_locations()` -> Returns all locations
+
+`getLocationsBy(id)` ->  Returns a single location by id.
+  - Supplied as object: `{ id: 1 }` or `{ googleId: "jh5678ujklo0987udsew2qwsdfdr2222" }`
+
+`addLocation(location)` -> Returns the added location object inside an array.
+
+`updateLocation(id, update)` -> Update a location by id.
+
+`deleteLocation(id)` -> Delete a location by id.
+<br>
+<br>
+<br>
+`googleLocationObject(location)` -> Returns a location object using location.googleId.
+
+`findLocation()` -> Middleware that finds a location and adds it to res.locals.location
+
+`addIfDoesNotExist()` -> Middleware that adds Google Place ID to our database before next()
 
 ## Environment Variables
 
@@ -116,6 +164,7 @@ create a .env file that includes the following:
     *  JWT_SECRET - secret for jwtoken
     *  TESTING_DATABASE - database url for testing environment
     *  ENVIRONMENT - set to "development" until ready for "production"
+    *  GCP_KEY - API token for Google Cloud Platform
     
 ## Contributing
 
