@@ -4,7 +4,6 @@ const {
 } = require("../google-maps-services/client");
 
 module.exports = {
-  googleLocationObject,
   formatLocationObject,
   formatAllLocationObjects,
 };
