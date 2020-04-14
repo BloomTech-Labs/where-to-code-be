@@ -65,14 +65,18 @@ There are six test users seeded into the database:
 
 #### Location Routes
 
-| Method | Endpoint                        | Access Control  | Description                                        |
-| ------ | ------------------------------- | --------------- | -------------------------------------------------- |
-| GET    | `/locations`                    | public          | Gets all of the locations in the database.         |
-| GET    | `/locations/:id`                | public          | Gets a single location based on `id` or `googleId`.|
-| POST   | `/locations`                    | public          | Adds a location to the database.                   |
-| GET    | `/locations/saved`              | registered user | Retrieve a users saved locations.                  |
-| POST   | `/locations/saved/:locationId`  | registered user | Adds a location to a users saved list.             |
-| DELETE | `/locations/saved/:locationId`  | registered user | Remove a location from users saved list.           |
+| Method | Endpoint                         | Access Control  | Description                                          |
+| ------ | -------------------------------- | --------------- | ---------------------------------------------------- |
+| GET    | `/locations`                     | public          | Gets all of the locations in the database.           |
+| GET    | `/locations/:id`                 | public          | Gets a single location based on `id` or `googleId`.  |
+| POST   | `/locations`                     | public          | Adds a location to the database.                     |
+| GET    | `/locations/saved`               | registered user | Retrieve a users saved locations.                    |
+| POST   | `/locations/saved/:locationId`   | registered user | Adds a location to a users saved list.               |
+| DELETE | `/locations/saved/:locationId`   | registered user | Remove a location from users saved list.             |
+| POST   | `/locations`                     | public          | Adds a location to the database.                     |
+| GET    | `/locations/visited`             | registered user | Retrieve a users visited locations.                  |
+| POST   | `/locations/visited/:locationId` | registered user | Adds a location to a users visited list.             |
+| DELETE | `/locations/visited/:locationId` | registered user | Remove a location from users visited list.           |
 
 # Data Model
 
@@ -148,11 +152,18 @@ There are six test users seeded into the database:
 <br>
 <br>
 <br>
-`googleLocationObject(location)` -> Returns a location object using location.googleId.
+`googleLocationObject(location)` -> Returns a structured object using `location.googleId`. Must be passed entire location object from our database.
 
-`findLocation()` -> Middleware that finds a location and adds it to res.locals.location
+`formatLocationObject(location)` -> Returns an object populated with Google Place details for locations with a googleId. Returns complete location object otherwise.
 
-`addIfDoesNotExist()` -> Middleware that adds Google Place ID to our database before next()
+`formatAllLocationObjects(locationsList)` -> Returns all locations in array, and populate with details for any Google Places.
+
+#### Middleware
+___
+
+`findLocation` -> Middleware that finds a location and adds it to res.locals.location
+
+`addIfDoesNotExist` -> Middleware that adds Google Place ID to our database before next()
 
 ## Environment Variables
 
