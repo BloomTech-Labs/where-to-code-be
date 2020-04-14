@@ -14,6 +14,6 @@ const sign_JWT = (user) => {
     expiresIn: "1d"
   };
   // Sign Token
-  return JWT.sign(payload, process.env.JWT_Secret, options);
+  return JWT.sign(payload, process.env.JWT_SECRET, options);
 };
 module.exports = sign_JWT;
