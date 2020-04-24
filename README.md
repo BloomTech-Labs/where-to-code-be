@@ -1,9 +1,3 @@
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your portfolio. This is intended to be a guideline. Feel free to add your own flare to it.
-
-🚫 The numbers 1️⃣ through 3️⃣ next to each item represent the week that part of the docs needs to be comepleted by.  Make sure to delete the numbers by the end of Labs.
-
-🚫 Each student has a required minimum number of meaningful PRs each week per the rubric.  Contributing to docs does NOT count as a PR to meet your weekly requirements.
-
 # API Documentation
 
 #### Backend delpoyed at [Hive Stack Heroku](https://hive-stack.herokuapp.com/) <br>
@@ -17,41 +11,65 @@ To get the server running locally:
 - create **.env**
   - **DEV_SERVER** development database url
   - **JWT_SECRET** secret for jwtoken
-  - **GCP_KEY** API key for Google Cloud Platform
   - **TESTING_DATABASE** database url for testing environment
 - **knex migrate:latest** migrate tables for database
 - **knex seed:run** runs seeded testing data
 - **yarn server** to start the local server
 - **yarn test** to start server using testing environment
 
-### NodeJs
+## NodeJs
 
-🚫 Why did you choose this framework?
+#### **Reasons we chose NODE JS**
 
--    Point One
--    Point Two
--    Point Three
--    Point Four
+- **Optimal Learning Curve**
 
-## 2️⃣ Endpoints
+  - We all are very familiar with the technology and there was little to no additional learning required to get up and running quickly.
 
-#### Authentication Routes
+- **Javascript Syntax**
 
-| Method | Endpoint                | Access Control  | Description                                  |
-| ------ | ----------------------- | --------------- | -------------------------------------------- |
-| POST   | `/auth/user/register`   | public          | Create an account for a basic user.          |
-| POST   | `/auth/login`           | public          | Login to a users account.                    |
-| GET    | `/auth/info`            | registered user | Validate token and retrieve user data        | 
-| PUT    | `/auth/update`          | registered user | Update a users credentials.                  |
-| DELETE | `/auth/delete-account`  | registered user | Delete the users account.                    |
+  - Unlike other server-side technologies (such as Angular), the syntax is Javascript based, not novel to the technology itself.
 
-#### User Routes
+- **Easy Integration**
 
-| Method | Endpoint                | Access Control  | Description                                        |
-| ------ | ----------------------- | --------------- | -------------------------------------------------- |
-| GET    | `/users`                | public          | Returns a list of all registered users.            |
-| GET    | `/users/:userId`        | public          | Returns info for a single user.                    |
-| PUT    | `/users/`               | registered user | Updates a users `firstName` & `lastName`.          |
+  - Hosting services like Heroku integrate well with Node without any additional dependencies.
+
+## Endpoints
+
+### Postman Docs: https://documenter.getpostman.com/view/9185503/SzS4RSns?version=latest 
+
+> #### Authentication Routes
+
+| Method | Endpoint               | Access Control  | Description                           |
+| ------ | ---------------------- | --------------- | ------------------------------------- |
+| POST   | `/auth/user/register`  | public          | Create an account for a basic user.   |
+| POST   | `/auth/login`          | public          | Login to a users account.             |
+| GET    | `/auth/info`           | registered user | Validate token and retrieve user data |
+| PUT    | `/auth/update`         | registered user | Update a users credentials.           |
+| DELETE | `/auth/delete-account` | registered user | Delete the users account.             |
+
+> #### User Routes
+
+| Method | Endpoint         | Access Control  | Description                               |
+| ------ | ---------------- | --------------- | ----------------------------------------- |
+| GET    | `/users`         | public          | Returns a list of all registered users.   |
+| GET    | `/users/:userId` | public          | Returns info for a single user.           |
+| PUT    | `/users/`        | registered user | Updates a users `firstName` & `lastName`. |
+
+> #### Location Routes
+
+| Method | Endpoint                         | Access Control  | Description                                                     |
+| ------ | -------------------------------- | --------------- | --------------------------------------------------------------- |
+| GET    | `/locations`                     | public          | Get all WiFi locations.                                         |
+| GET    | `/locations/:locationId`         | public          | Get a single location based on `id` or `googleId`.              |
+| POST   | `/locations`                     | public          | Add a location to the database.                                 |
+| GET    | `/locations/saved`               | registered user | Gets a user's saved locations.                                  |
+| POST   | `/locations/saved/:locationId`   | registered user | Adds a saved location to a specific user's list.                |
+| DELETE | `/locations/saved/:locationId`   | registered user | Delete a single saved location from the user's list.            |
+| GET    | `/locations/visited`             | registered user | Gets a user's visited locations.                                |
+| POST   | `/locations/visited/:locationId` | registered user | Adds a location to a specific user's list of visited locations. |
+| DELETE | `/locations/visited/:visitId`    | registered user | Delete a single visited location from the user's list.          |
+
+## Test User Accounts
 
 There are six test users seeded into the database:
 | Email           | Password |
@@ -63,95 +81,44 @@ There are six test users seeded into the database:
 | test5@gmail.com | test5    |
 | test6@gmail.com | test6    |
 
-#### Location Routes
+## Actions
 
-| Method | Endpoint                         | Access Control  | Description                                          |
-| ------ | -------------------------------- | --------------- | ---------------------------------------------------- |
-| GET    | `/locations`                     | public          | Gets all of the locations in the database.           |
-| GET    | `/locations/:id`                 | public          | Gets a single location based on `id` or `googleId`.  |
-| POST   | `/locations`                     | public          | Adds a location to the database.                     |
-| GET    | `/locations/saved`               | registered user | Retrieve a users saved locations.                    |
-| POST   | `/locations/saved/:locationId`   | registered user | Adds a location to a users saved list.               |
-| DELETE | `/locations/saved/:locationId`   | registered user | Remove a location from users saved list.             |
-| POST   | `/locations`                     | public          | Adds a location to the database.                     |
-| GET    | `/locations/visited`             | registered user | Retrieve a users visited locations.                  |
-| POST   | `/locations/visited/:locationId` | registered user | Adds a location to a users visited list.             |
-| DELETE | `/locations/visited/:locationId` | registered user | Remove a location from users visited list.           |
+> ### User Actions
 
-# Data Model
+`getAll_users()` -> No params, returns all users
 
-#### BASIC USERS
+`getUserById(userId)` -> Accepts a single param (the user's ID), returns a single user by user ID
 
----
+`getUserInfo(userID)` -> Accepts a single param (the user's ID), returns user's information (including login credentials)
 
-```
-{
-  id: INTEGER
-  username: STRING
-  firstName: STRING
-  lastName: STRING
-  reviewCount: INTEGER
-  created_at: TIMESTAMP
-  updated_at: TIMESTAMP
-}
-```
+`add({user object})` --> Accepts user object ({username: string, firstname: string, lastname: string, email: string, password: string}) and creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
 
-#### LOCATIONS
+`update(userId, {changes})` -> Accepts user ID and a changes object (populated with changes to either or all of user data columns) and returns an updated single user.
 
----
+> ### User Credentials Actions
 
-```
-{
-  id: INTEGER,
-  googleId: STRING, // used when storing location from google
-  name: STRING,
-  address: STRING,
-  phone: STRING,
-  icon: STRING      // url for image of location
-}
-```
+`findBy(userID)` -> Accepts a single param (the user's ID), returns a single user's **sensitive** information (including login credentials).
 
-## 2️⃣ Actions
+`add(user)` -> Accepts user object `[see data shape above]` and returns a new user.
 
-🚫 This is an example, replace this with the actions that pertain to your backend
+`update(userID, {changes})` -> Accepts user ID and a changes object (populated with changes to either or all of user data columns), returns user's updated information (including updated login credentials)
 
-`getOrgs()` -> Returns all organizations
+`remove(userId)` -> Accepts user ID and effectively removes user from database (deletes credentials but leaves other user data intact).
 
-`getOrg(orgId)` -> Returns a single organization by ID
+> ### Location Actions
 
-`addOrg(org)` -> Returns the created org
+`getAll_locations()` -> Returns all locations in database.
 
-`updateOrg(orgId)` -> Update an organization by ID
+`getLocationsById(locationID)` -> Accepts a single param (location ID) and returns all data for specified location.
 
-`deleteOrg(orgId)` -> Delete an organization by ID
-<br>
-<br>
-<br>
-`getUsers(orgId)` -> if no param all users
+`getLocationByGoogleId(googleID)` -> Accept a single param (google location ID) and returns all data for specified location.
 
-`getUser(userId)` -> Returns a single user by user ID
+`add({locations}) -> Accepts location object`[see data shape above]`, adds it to the database and returns the newly created location.
 
-`addUser(user object)` --> Creates a new user and returns that user. Also creates 7 availabilities defaulted to hours of operation for their organization.
+`updateLocation(locationID, {changes})` -> Accepts location ID and changes object, returns updated location.
 
-`updateUser(userId, changes object)` -> Updates a single user by ID.
+`deleteLocation(locationID)` -> Accepts location ID and removes specified location from database.
 
-`deleteUser(userId)` -> deletes everything dependent on the user
-<br>
-<br>
-<br>
-`getAll_locations()` -> Returns all locations
-
-`getLocationsBy(id)` ->  Returns a single location by id.
-  - Supplied as object: `{ id: 1 }` or `{ googleId: "jh5678ujklo0987udsew2qwsdfdr2222" }`
-
-`addLocation(location)` -> Returns the added location object inside an array.
-
-`updateLocation(id, update)` -> Update a location by id.
-
-`deleteLocation(id)` -> Delete a location by id.
-<br>
-<br>
-<br>
 `googleLocationObject(location)` -> Returns a structured object using `location.googleId`. Must be passed entire location object from our database.
 
 `formatLocationObject(location)` -> Returns an object populated with Google Place details for locations with a googleId. Returns complete location object otherwise.
@@ -175,8 +142,7 @@ create a .env file that includes the following:
     *  JWT_SECRET - secret for jwtoken
     *  TESTING_DATABASE - database url for testing environment
     *  ENVIRONMENT - set to "development" until ready for "production"
-    *  GCP_KEY - API token for Google Cloud Platform
-    
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.
@@ -185,11 +151,12 @@ Please note we have a [code of conduct](./code_of_conduct.md). Please follow it 
 
 ### Issue/Bug Request
 
- **If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
- - Check first to see if your issue has already been reported.
- - Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
- - Create a live example of the problem.
- - Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes,  where you believe the issue is originating from, and any potential solutions you have considered.
+**If you are having an issue with the existing project code, please submit a bug report under the following guidelines:**
+
+- Check first to see if your issue has already been reported.
+- Check to see if the issue has recently been fixed by attempting to reproduce the issue using the latest master branch in the repository.
+- Create a live example of the problem.
+- Submit a detailed bug report including your environment & browser, steps to reproduce the issue, actual and expected outcomes, where you believe the issue is originating from, and any potential solutions you have considered.
 
 ### Feature Requests
 
@@ -215,8 +182,7 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 
 ## Documentation
 
-See [Frontend Documentation](🚫link to your frontend readme here) for details on the fronend of our project.
-🚫 Add DS iOS and/or Andriod links here if applicable.
+See [Frontend Documentation](https://github.com/Lambda-School-Labs/where-to-code-fe/blob/master/README.md) for details on the fronend of our project.
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/test_coverage)
