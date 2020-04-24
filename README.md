@@ -37,8 +37,6 @@ To get the server running locally:
 
 ### Postman Docs: https://documenter.getpostman.com/view/9185503/SzS4RSns?version=latest 
 
-### Routes
-
 > #### Authentication Routes
 
 | Method | Endpoint               | Access Control  | Description                           |
@@ -59,29 +57,29 @@ To get the server running locally:
 
 > #### Location Routes
 
-| Method | Endpoint                 | Access Control  | Description                                                     |
-| ------ | ------------------------ | --------------- | --------------------------------------------------------------- |
-| GET    | `/locations`             | public          | Get all WiFi locations.                                         |
-| GET    | `/locations/:id`         | public          | Get a single location by its location ID.                       |
-| POST   | `/locations`             | public          | Add a location to the database.                                 |
-| GET    | `/locations/saved`       | registered user | Gets a user's saved locations.                                  |
-| POST   | `/locations/saved/:id`   | registered user | Adds a saved location to a specific user's list.                |
-| DELETE | `/locations/saved/:id`   | registered user | Delete a single saved location from the user's list.            |
-| GET    | `/locations/visited`     | registered user | Gets a user's visited locations.                                |
-| POST   | `/locations/visited/:id` | registered user | Adds a location to a specific user's list of visited locations. |
-| DELETE | `/locations/visited/:id` | registered user | Delete a single visited location from the user's list.          |
+| Method | Endpoint                         | Access Control  | Description                                                     |
+| ------ | -------------------------------- | --------------- | --------------------------------------------------------------- |
+| GET    | `/locations`                     | public          | Get all WiFi locations.                                         |
+| GET    | `/locations/:locationId`         | public          | Get a single location based on `id` or `googleId`.              |
+| POST   | `/locations`                     | public          | Add a location to the database.                                 |
+| GET    | `/locations/saved`               | registered user | Gets a user's saved locations.                                  |
+| POST   | `/locations/saved/:locationId`   | registered user | Adds a saved location to a specific user's list.                |
+| DELETE | `/locations/saved/:locationId`   | registered user | Delete a single saved location from the user's list.            |
+| GET    | `/locations/visited`             | registered user | Gets a user's visited locations.                                |
+| POST   | `/locations/visited/:locationId` | registered user | Adds a location to a specific user's list of visited locations. |
+| DELETE | `/locations/visited/:visitId`    | registered user | Delete a single visited location from the user's list.          |
 
 ## Test User Accounts
 
 There are six test users seeded into the database:
-| Email | Password |
+| Email           | Password |
 | --------------- | -------- |
-| test1@gmail.com | test |
-| test2@gmail.com | test2 |
-| test3@gmail.com | test3 |
-| test4@gmail.com | test4 |
-| test5@gmail.com | test5 |
-| test6@gmail.com | test6 |
+| test1@gmail.com | test     |
+| test2@gmail.com | test2    |
+| test3@gmail.com | test3    |
+| test4@gmail.com | test4    |
+| test5@gmail.com | test5    |
+| test6@gmail.com | test6    |
 
 ## Actions
 
@@ -120,6 +118,19 @@ There are six test users seeded into the database:
 `updateLocation(locationID, {changes})` -> Accepts location ID and changes object, returns updated location.
 
 `deleteLocation(locationID)` -> Accepts location ID and removes specified location from database.
+
+`googleLocationObject(location)` -> Returns a structured object using `location.googleId`. Must be passed entire location object from our database.
+
+`formatLocationObject(location)` -> Returns an object populated with Google Place details for locations with a googleId. Returns complete location object otherwise.
+
+`formatAllLocationObjects(locationsList)` -> Returns all locations in array, and populate with details for any Google Places.
+
+#### Middleware
+___
+
+`findLocation` -> Middleware that finds a location and adds it to res.locals.location
+
+`addIfDoesNotExist` -> Middleware that adds Google Place ID to our database before next()
 
 ## Environment Variables
 
@@ -175,11 +186,3 @@ See [Frontend Documentation](https://github.com/Lambda-School-Labs/where-to-code
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/test_coverage)
-
-```
-
-```
-
-```
-
-```

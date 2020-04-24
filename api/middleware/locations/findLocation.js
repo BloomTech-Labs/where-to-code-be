@@ -17,15 +17,15 @@ module.exports = findLocation;
 
 function findLocation(req, res, next) {
   let location = req.body;
-  if (!!req.params.id)
-    location = { id: req.params.id, googleId: req.params.id };
+  if (!!req.params.locationId)
+    location = { id: req.params.locationId, googleId: req.params.locationId };
 
-  const findBy = (id) => {
-    if (location[id]) {
-      if (id === "id" && !Number.isInteger(location[id])) { // "id" is expected as an integer
+  const findBy = (type) => {
+    if (location[type]) {
+      if (type === "id" && isNaN(location[type])) { // "id" is expected as an integer
         return new Promise((resolve) => resolve([])); // IF not passed as integer do not call getLocationBy(
       }
-      return LOCATIONS_MODEL.getLocationBy({ [id]: location[id] }); // if location object has id, return getLocationBy(id)
+      return LOCATIONS_MODEL.getLocationBy({ [type]: location[type] }); // if location object has id, return getLocationBy(id)
     }
     return new Promise((resolve) => resolve([])); // else return an empty array
   };
