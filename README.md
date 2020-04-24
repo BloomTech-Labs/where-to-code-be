@@ -35,6 +35,8 @@ To get the server running locally:
 
 ## Endpoints
 
+### Postman Docs: https://documenter.getpostman.com/view/9185503/SzS4RSns?version=latest 
+
 ### Authentication Endpoints (Endpoints along the "/auth" route.)
 
 **Register new user [POST]:** [{{base_url}}/auth/user/register]({{base_url}}/auth/user/register)
