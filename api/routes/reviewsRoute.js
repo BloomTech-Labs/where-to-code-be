@@ -7,6 +7,8 @@ const router = require("express").Router();
 
 // MIDDLEWARE
 const requireBody = require("../middleware/requireBody");
+const findLocation = require("../middleware/locations/findLocation");
+const addIfDoesNotExist = require("../middleware/locations/addIfDoesNotExist");
 
 // @route GET reviews/
 // @desc Gets all the reviews in the database
@@ -60,11 +62,10 @@ router.get("/:id/user", authenticate, async (req, res) => {
 // @desc Gets all reviews for location ID
 // @access currently Public, needs to be protected
 
-router.get("/:id/location", async (req, res) => {
+router.get("/:locationId/location", findLocation, async (req, res) => {
+  const location = res.locals.location;
   try {
-    const reviewLocation = await REVIEW_MODEL.getReviewsByLocation(
-      req.params.id
-    );
+    const reviewLocation = await REVIEW_MODEL.getReviewsByLocation(location.id);
     console.log("rl", reviewLocation);
     if (reviewLocation) {
       res.status(200).json(reviewLocation);
@@ -120,21 +121,20 @@ router.get("/:id/feature", async (req, res) => {
         .send({ message: "Location from this review is not found", error });
     }
   } catch (err) {
-    res
-      .status(500)
-      .json({
-        message: "Error fetching Review. Location May Not Have A Review. "
-      });
+    res.status(500).json({
+      message: "Error fetching Review. Location May Not Have A Review. "
+    });
   }
 });
 
 // @route Get reviews/:id/first
 // @desc Gets first posted review
 // @access currently Public, needs to be protected
-router.get("/:id/first", async (req, res) => {
+router.get("/:locationId/first", findLocation, async (req, res) => {
+  const location = res.locals.location;
   try {
     const featureReview = await REVIEW_MODEL.getFirstReviewByLocation(
-      req.params.id
+      location.id
     );
     console.log("rl", featureReview);
     console.log("length", Object.keys(featureReview).length);
@@ -154,15 +154,32 @@ router.get("/:id/first", async (req, res) => {
 // @route POST reviews/
 // @desc Adds a new review
 // @access currently Public, needs to be protected
-router.post("/", requireBody, async (req, res) => {
-  let review = req.body;
-  try {
-    const addedReview = await REVIEW_MODEL.add(review);
-    return res.status(201).json({ message: "New review added", addedReview });
-  } catch (err) {
-    return res.status(500).json(err.message);
+router.post(
+  "/",
+  authenticate,
+  requireBody,
+  findLocation,
+  addIfDoesNotExist,
+  async (req, res) => {
+    const review = {
+      rating: req.body.rating,
+      comments: req.body.comments,
+      internet_rating: req.body.internet_rating,
+      location_id: res.locals.location.id,
+      user_id: res.locals.decodedToken.userId,
+      upload_speed: req.body.upload_speed || null,
+      download_speed: req.body.download_speed || null,
+      secure_wifi: req.body.secure_wifi || null,
+    };
+
+    try {
+      const addedReview = await REVIEW_MODEL.add(review);
+      return res.status(201).json({ message: "New review added", addedReview });
+    } catch (err) {
+      return res.status(500).json(err.message);
+    }
   }
-});
+);
 
 // @route PUT reviews/
 // @desc Edits a review
