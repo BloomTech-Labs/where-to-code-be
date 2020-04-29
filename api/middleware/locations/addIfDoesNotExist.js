@@ -12,7 +12,7 @@ module.exports = addIfDoesNotExist;
 async function addIfDoesNotExist(req, res, next) {
   if (!!res.locals.location) return next();
   if (req.params.locationId.length < 10) return res.status(400).json({ message: "This location could not be found." });
-  const [loc] = await LOCATIONS.addLocation({ googleId: req.params.locationId });
+  const [loc] = await LOCATIONS.addLocation({ googleId: req.params.locationId || req.body.googleId });
   res.locals.location = loc;
   next();
 }
