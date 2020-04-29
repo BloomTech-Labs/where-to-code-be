@@ -19,6 +19,8 @@ function findLocation(req, res, next) {
   let location = req.body;
   if (!!req.params.locationId)
     location = { id: req.params.locationId, googleId: req.params.locationId };
+  // If req.body contains `location_id`, assign that value to `googleId`
+  if (!!req.body.location_id) req.body.googleId = req.body.location_id;
 
   const findBy = (type) => {
     if (location[type]) {
