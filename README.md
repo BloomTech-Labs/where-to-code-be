@@ -2,6 +2,9 @@
 
 #### Backend delpoyed at [Hive Stack Heroku](https://hive-stack.herokuapp.com/) <br>
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/test_coverage)
+
 ## Getting started
 
 To get the server running locally:
@@ -11,6 +14,7 @@ To get the server running locally:
 - create **.env**
   - **DEV_SERVER** development database url
   - **JWT_SECRET** secret for jwtoken
+  - **GCP_KEY** API key for Google Cloud Platform
   - **TESTING_DATABASE** database url for testing environment
 - **knex migrate:latest** migrate tables for database
 - **knex seed:run** runs seeded testing data
@@ -35,7 +39,7 @@ To get the server running locally:
 
 ## Endpoints
 
-### Postman Docs: https://documenter.getpostman.com/view/9185503/SzS4RSns?version=latest 
+### Postman Docs: https://documenter.getpostman.com/view/9185503/SzS4RSns?version=latest
 
 > #### Authentication Routes
 
@@ -72,14 +76,47 @@ To get the server running locally:
 ## Test User Accounts
 
 There are six test users seeded into the database:
-| Email           | Password |
+| Email | Password |
 | --------------- | -------- |
-| test1@gmail.com | test     |
-| test2@gmail.com | test2    |
-| test3@gmail.com | test3    |
-| test4@gmail.com | test4    |
-| test5@gmail.com | test5    |
-| test6@gmail.com | test6    |
+| test1@gmail.com | test |
+| test2@gmail.com | test2 |
+| test3@gmail.com | test3 |
+| test4@gmail.com | test4 |
+| test5@gmail.com | test5 |
+| test6@gmail.com | test6 |
+
+# Data Model
+
+#### BASIC USERS
+
+---
+
+```
+{
+  id: INTEGER
+  username: STRING
+  firstName: STRING
+  lastName: STRING
+  reviewCount: INTEGER
+  created_at: TIMESTAMP
+  updated_at: TIMESTAMP
+}
+```
+
+#### LOCATIONS
+
+---
+
+```
+{
+  id: INTEGER,
+  googleId: STRING, // used when storing location from google
+  name: STRING,
+  address: STRING,
+  phone: STRING,
+  icon: STRING      // url for image of location
+}
+```
 
 ## Actions
 
@@ -125,8 +162,7 @@ There are six test users seeded into the database:
 
 `formatAllLocationObjects(locationsList)` -> Returns all locations in array, and populate with details for any Google Places.
 
-#### Middleware
-___
+> ### Middleware
 
 `findLocation` -> Middleware that finds a location and adds it to res.locals.location
 
@@ -142,6 +178,7 @@ create a .env file that includes the following:
     *  JWT_SECRET - secret for jwtoken
     *  TESTING_DATABASE - database url for testing environment
     *  ENVIRONMENT - set to "development" until ready for "production"
+    *  GCP_KEY - API token for Google Cloud Platform
 
 ## Contributing
 
@@ -183,6 +220,3 @@ These contribution guidelines have been adapted from [this good-Contributing.md-
 ## Documentation
 
 See [Frontend Documentation](https://github.com/Lambda-School-Labs/where-to-code-fe/blob/master/README.md) for details on the fronend of our project.
-
-[![Maintainability](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/maintainability)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/maintainability)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/07dd8f429c840cfe6961/test_coverage)](https://codeclimate.com/github/Lambda-School-Labs/where-to-code-be/test_coverage)
